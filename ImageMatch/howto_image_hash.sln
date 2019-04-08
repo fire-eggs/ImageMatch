@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "howto_image_hash", "howto_image_hash.csproj", "{8BDC5F12-7DCE-433B-BCA2-ACC0EEC4E0EF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BDC5F12-7DCE-433B-BCA2-ACC0EEC4E0EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BDC5F12-7DCE-433B-BCA2-ACC0EEC4E0EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BDC5F12-7DCE-433B-BCA2-ACC0EEC4E0EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BDC5F12-7DCE-433B-BCA2-ACC0EEC4E0EF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50C75FED-07AD-4430-9958-AEFCA146A373}
+	EndGlobalSection
+EndGlobal
