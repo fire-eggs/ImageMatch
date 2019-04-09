@@ -46,8 +46,7 @@ namespace howto_image_hash
             else
                 delta = Environment.TickCount - tick;
 
-            using (var f = File.Open(@"e:\htih.log", FileMode.Append))
-            using (StreamWriter sw = new StreamWriter(f))
+            using (StreamWriter sw = new StreamWriter(File.Open(@"e:\htih.log", FileMode.Append)))
             {
                 sw.WriteLine("{0}|{1}|", msg, delta);
             }

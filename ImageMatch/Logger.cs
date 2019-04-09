@@ -8,6 +8,7 @@ namespace howto_image_hash
     public class Logger
     {
         private string _logPath;
+        private readonly object _lock = new object();
 
         public Logger()
         {
@@ -20,7 +21,7 @@ namespace howto_image_hash
         {
             try
             {
-                lock (_logPath)
+                lock (_lock)
                 {
                     using (StreamWriter file = new StreamWriter(_logPath, true))
                     {
