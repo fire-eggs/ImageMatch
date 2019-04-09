@@ -65,7 +65,9 @@ namespace howto_image_hash
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectPixPair(listBox2.SelectedItem as ScoreEntry2, pictureBox1, pictureBox2);
+            var se = listBox2.SelectedItem as ScoreEntry2;
+            setPix(se, true, pictureBox1, label1);
+            setPix(se, false, pictureBox2, label2);
         }
 
         private void btnHideL_Click(object sender, EventArgs e)

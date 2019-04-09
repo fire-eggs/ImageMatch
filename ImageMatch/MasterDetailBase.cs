@@ -41,6 +41,40 @@ namespace howto_image_hash
             _loader = loader;
         }
 
+        internal void setPix(ScoreEntry2 sel, bool first, PictureBox pbox, Label plab)
+        {
+            if (sel == null)
+                return;
+            var zf = first ? sel.F1.ZipFile : sel.F2.ZipFile;
+            var fi = first ? sel.F1.InnerPath : sel.F2.InnerPath;
+
+            var imgF = _loader.Extract(zf, fi);
+            if (!string.IsNullOrEmpty(imgF)) // clean up all created temp files on close
+                _toCleanup.Add(imgF);
+
+            try
+            {
+                if (string.IsNullOrEmpty(imgF))
+                {
+                    pbox.Image = null;
+                    plab.Text = "";
+                    return;
+                }
+
+                // load image to picturebox with no file lock
+                pbox.Image = Image.FromStream(new MemoryStream(File.ReadAllBytes(imgF))); // no file lock
+
+                // set image stats to label
+                var info1 = new FileInfo(imgF);
+                var size1 = pbox.Image.Size;
+                plab.Text = string.Format("{0},{1} [{2:0.00}K]", size1.Width, size1.Height, (double)info1.Length / 1024.0);
+            }
+            catch
+            {
+
+            }
+        }
+
         internal void selectPixPair(ScoreEntry2 sel, PictureBox pictureBox1, PictureBox pictureBox2)
         {
             if (sel == null)
