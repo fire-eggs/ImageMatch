@@ -45,9 +45,11 @@ namespace howto_image_hash
             // 
             // btnFolder
             // 
-            this.btnFolder.Location = new System.Drawing.Point(12, 12);
+            this.btnFolder.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnFolder.Location = new System.Drawing.Point(14, 15);
+            this.btnFolder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnFolder.Name = "btnFolder";
-            this.btnFolder.Size = new System.Drawing.Size(75, 23);
+            this.btnFolder.Size = new System.Drawing.Size(87, 28);
             this.btnFolder.TabIndex = 11;
             this.btnFolder.Text = "Hash Folder";
             this.btnFolder.UseVisualStyleBackColor = true;
@@ -55,16 +57,19 @@ namespace howto_image_hash
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(109, 12);
+            this.progressBar1.Location = new System.Drawing.Point(127, 15);
+            this.progressBar1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(229, 23);
+            this.progressBar1.Size = new System.Drawing.Size(267, 28);
             this.progressBar1.TabIndex = 12;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(7, 84);
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button1.Location = new System.Drawing.Point(8, 103);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(124, 23);
+            this.button1.Size = new System.Drawing.Size(145, 28);
             this.button1.TabIndex = 13;
             this.button1.Text = "Load Zip Hash";
             this.button1.UseVisualStyleBackColor = true;
@@ -72,9 +77,11 @@ namespace howto_image_hash
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(138, 84);
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button2.Location = new System.Drawing.Point(161, 103);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(123, 23);
+            this.button2.Size = new System.Drawing.Size(143, 28);
             this.button2.TabIndex = 14;
             this.button2.Text = "Load Zip Hash2";
             this.button2.UseVisualStyleBackColor = true;
@@ -82,9 +89,11 @@ namespace howto_image_hash
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(268, 84);
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button3.Location = new System.Drawing.Point(313, 103);
+            this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(121, 23);
+            this.button3.Size = new System.Drawing.Size(141, 28);
             this.button3.TabIndex = 15;
             this.button3.Text = "Load Zip Hash3";
             this.button3.UseVisualStyleBackColor = true;
@@ -92,14 +101,16 @@ namespace howto_image_hash
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 119);
+            this.ClientSize = new System.Drawing.Size(506, 146);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.btnFolder);
+            this.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
             this.Text = "PHash - ZIP";
             this.ResumeLayout(false);
