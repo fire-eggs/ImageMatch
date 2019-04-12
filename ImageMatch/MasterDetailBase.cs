@@ -45,10 +45,28 @@ namespace howto_image_hash
         {
             if (sel == null)
                 return;
-            var zf = first ? sel.F1.ZipFile : sel.F2.ZipFile;
-            var fi = first ? sel.F1.InnerPath : sel.F2.InnerPath;
 
-            var imgF = _loader.Extract(zf, fi);
+            string zipF;
+            string fi;
+            if (first)
+            {
+                zipF = sel.F1 == null ? "" : sel.F1.ZipFile;
+                fi = sel.F1 != null ? sel.F1.InnerPath : "";
+            }
+            else
+            {
+                zipF = sel.F2 == null ? "" : sel.F2.ZipFile;
+                fi = sel.F2 != null ? sel.F2.InnerPath : "";
+            }
+
+            if (string.IsNullOrEmpty(zipF) || string.IsNullOrEmpty(fi))
+            {
+                pbox.Image = null;
+                plab.Text = "";
+                return;
+            }
+
+            var imgF = _loader.Extract(zipF, fi);
             if (!string.IsNullOrEmpty(imgF)) // clean up all created temp files on close
                 _toCleanup.Add(imgF);
 
@@ -137,25 +155,49 @@ namespace howto_image_hash
         {
             List<ScoreEntry2> retlist = new List<ScoreEntry2>();
 
+            bool[] rightMatch = new bool[ziplist2.Count];
+
             // Make a list of matching files in zip1 vs zip2
             for (int dex1 = 0; dex1 < ziplist1.Count; dex1++)
             {
                 var hze1 = ziplist1[dex1];
+
+                bool matched = false;
                 for (int dex2 = 0; dex2 < ziplist2.Count; dex2++)
                 {
                     var hze2 = ziplist2[dex2];
 
                     var ascore = CalcScoreP(hze1, hze2);
-                    if (ascore < 10)
+                    if (ascore < 22)
                     {
                         ScoreEntry2 se = new ScoreEntry2();
                         se.F1 = hze1;
                         se.F2 = hze2;
                         se.score = ascore;
                         retlist.Add(se);
+                        matched = true;
+                        rightMatch[dex2] = true;
+                        break;
                     }
                 }
+
+                if (!matched)
+                {
+                    ScoreEntry2 se = new ScoreEntry2();
+                    se.F1 = hze1;
+                    se.score = 999 * 2;
+                    retlist.Add(se);
+                }
             }
+
+            for (int i = 0; i < rightMatch.Length; i++)
+                if (!rightMatch[i])
+                {
+                    ScoreEntry2 se = new ScoreEntry2();
+                    se.F2 = ziplist2[i];
+                    se.score = 999 * 2;
+                    retlist.Add(se);
+                }
 
             return retlist;
         }

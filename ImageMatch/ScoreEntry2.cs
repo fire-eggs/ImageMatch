@@ -12,13 +12,13 @@ namespace howto_image_hash
 
         public override string ToString()
         {
-            return string.Format(" {0} | {1} | {2}", score / 2, F1.InnerPath, F2.InnerPath);
+            return string.Format(" {0} | {1} | {2}", score / 2, F1 == null ? "" : F1.InnerPath, F2 == null ? "" : F2.InnerPath);
         }
 
         public static int Comparer(ScoreEntry2 x, ScoreEntry2 y)
         {
             int val = x.score - y.score;
-            if (val == 0)
+            if (val == 0 && x.F1 != null && y.F1 != null)
                 val = string.Compare(x.F1.InnerPath, y.F1.InnerPath, StringComparison.Ordinal); // same value: sort by name
             return val;
         }
