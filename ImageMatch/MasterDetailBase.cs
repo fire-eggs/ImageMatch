@@ -10,9 +10,6 @@ using System.Windows.Forms;
 
 using HashZipEntry = howto_image_hash.Form1.HashZipEntry;
 
-#pragma warning disable VSD0023 // {0} blocks should use braces to denote start and end.
-#pragma warning disable VSD0010 // Warns when an exception catch block is empty.
-
 namespace howto_image_hash
 {
     public abstract class MasterDetailBase : Form
@@ -122,6 +119,8 @@ namespace howto_image_hash
                     var hze2 = ziplist2[dex2];
 
                     var ascore = CalcScoreP(hze1, hze2);
+
+                    // TODO need to keep searching and take the BEST match, not the first! Use VP-tree to fix!
                     if (ascore < 22)
                     {
                         ScoreEntry2 se = new ScoreEntry2();
@@ -279,9 +278,13 @@ namespace howto_image_hash
                     var zipFiles2 = _zipDict[ziplist[dex2]].ToList();
                     int matches = CalcScore(zipFiles1, zipFiles2);
 
-                    int score;
-                    score = (int)(((double)matches / zipFiles1.Count) * 100.0);
+                    // when "R holds L", the score should be the % of matches against the L
+                    // when "L holds R", the score should be the % of matches against the R
+                    int score1 = (int)(((double)matches / zipFiles1.Count) * 100.0);
+                    int score2 = (int)(((double)matches / zipFiles2.Count) * 100.0);
+                    int score = Math.Max(score1, score2);
 
+                    // progress bar update
                     donCount++;
                     if (donCount % 10 == 0)
                     {
