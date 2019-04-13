@@ -252,7 +252,7 @@ namespace howto_image_hash
 
             _scoreList.Sort(ScoreEntry.Comparer);
 
-            LoadList();
+            LoadZipList();
             _log.logTimer("compareZ_rwc");
         }
 
@@ -372,7 +372,7 @@ namespace howto_image_hash
         internal void ToggleFilter()
         {
             _filterSameTree = !_filterSameTree;
-            LoadList();
+            LoadZipList();
         }
 
         private string separator;
@@ -410,7 +410,7 @@ namespace howto_image_hash
                 return;
             if (!_hideLeft.Contains(sel.zipfile1))
                 _hideLeft.Add(sel.zipfile1);
-            LoadList();
+            LoadZipList();
         }
 
         internal void HideRight(ScoreEntry sel)
@@ -419,7 +419,7 @@ namespace howto_image_hash
                 return;
             if (!_hideRight.Contains(sel.zipfile2))
                 _hideRight.Add(sel.zipfile2);
-            LoadList();
+            LoadZipList();
         }
 
         internal void AddNote(ScoreEntry sel, string note)
@@ -447,7 +447,7 @@ namespace howto_image_hash
 
         public virtual void updateProgress(int value) { throw new Exception(); }
 
-        public virtual void LoadList() { throw new Exception(); }
+        public virtual void LoadZipList() { throw new Exception(); }
 
         public virtual void SetNote(string text) { throw new Exception(); }
     }

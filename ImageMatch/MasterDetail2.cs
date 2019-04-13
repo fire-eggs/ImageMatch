@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace howto_image_hash
 {
@@ -58,7 +50,7 @@ namespace howto_image_hash
             Reset();
         }
 
-        public override void LoadList()
+        public override void LoadZipList()
         {
             var viewlist = FilterMatchingTree();
 

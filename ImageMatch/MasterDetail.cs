@@ -44,7 +44,7 @@ namespace howto_image_hash
             progressBar1.Value = value;
         }
 
-        public override void LoadList()
+        public override void LoadZipList()
         {
             var viewlist = FilterMatchingTree();
 

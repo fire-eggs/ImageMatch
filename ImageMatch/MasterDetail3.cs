@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 
 namespace howto_image_hash
 {
@@ -43,40 +42,40 @@ namespace howto_image_hash
             Report();
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void listZipPairs_SelectedIndexChanged(object sender, EventArgs e)
         {
             // user has selected a zip
             if (_oldSel != null)
                 AddNote(_oldSel, txtNote.Text);  // "auto-update" note
 
-            var sel = listBox1.SelectedItem as ScoreEntry;
+            var sel = listZipPairs.SelectedItem as ScoreEntry;
             var det = selectZipPair(sel);
-            listBox2.DataSource = det;
+            listFilePairs.DataSource = det;
 
             _oldSel = sel;
         }
 
-        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void listFilePairs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var se = listBox2.SelectedItem as ScoreEntry2;
+            var se = listFilePairs.SelectedItem as ScoreEntry2;
             setPix(se, true, pictureBox1, label1);
             setPix(se, false, pictureBox2, label2);
         }
 
         private void btnHideL_Click(object sender, EventArgs e)
         {
-            HideLeft(listBox1.SelectedItem as ScoreEntry);
+            HideLeft(listZipPairs.SelectedItem as ScoreEntry);
         }
 
         private void btnHideR_Click(object sender, EventArgs e)
         {
-            HideRight(listBox1.SelectedItem as ScoreEntry);
+            HideRight(listZipPairs.SelectedItem as ScoreEntry);
         }
 
         private void ClearForLoad()
         {
-            listBox1.DataSource = null;
-            listBox2.DataSource = null;
+            listZipPairs.DataSource = null;
+            listFilePairs.DataSource = null;
             pictureBox1.Image = null;
             pictureBox2.Image = null;
             label1.Text = "";
@@ -84,14 +83,14 @@ namespace howto_image_hash
             txtNote.Text = "";
         }
 
-        public override void LoadList()
+        public override void LoadZipList()
         {
             var viewlist = FilterMatchingTree();
 
-            listBox1.DataSource = viewlist;
-            listBox1.SelectedIndex = -1;
+            listZipPairs.DataSource = viewlist;
+            listZipPairs.SelectedIndex = -1;
             if (viewlist.Count > 0)
-                listBox1.SelectedIndex = 0;
+                listZipPairs.SelectedIndex = 0;
         }
 
         public override void updateProgress(int value)
