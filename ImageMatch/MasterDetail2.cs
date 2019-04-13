@@ -17,10 +17,6 @@ namespace howto_image_hash
         {
             InitializeComponent();
 
-            // TODO hack, hack
-            base.label1 = label1;
-            base.label2 = label2;
-
             this.button1.Click += new System.EventHandler(this.button1_Click);
             this.button2.Click += new System.EventHandler(this.button2_Click);
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
@@ -29,7 +25,6 @@ namespace howto_image_hash
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectPixPair(listBox2.SelectedItem as ScoreEntry2, pictureBox1, pictureBox2);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

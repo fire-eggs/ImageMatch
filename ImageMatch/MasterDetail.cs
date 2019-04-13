@@ -8,15 +8,10 @@ namespace howto_image_hash
             : base(log, loader)
         {
             InitializeComponent();
-
-            // TODO hack, hack
-            base.label1 = label1;
-            base.label2 = label2;
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectPixPair(listBox2.SelectedItem as ScoreEntry2, pictureBox1, pictureBox2);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

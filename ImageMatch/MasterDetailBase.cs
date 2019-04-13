@@ -32,9 +32,6 @@ namespace howto_image_hash
         private List<string> _hideRight = new List<string>();
         private List<string> _toCleanup = new List<string>();
 
-        internal Label label1;
-        internal Label label2;
-
         public MasterDetailBase(Logger log, ArchiveLoader loader)
         {
             _log = log;
@@ -91,49 +88,6 @@ namespace howto_image_hash
             {
 
             }
-        }
-
-        internal void selectPixPair(ScoreEntry2 sel, PictureBox pictureBox1, PictureBox pictureBox2)
-        {
-            if (sel == null)
-                return;
-
-            var f1 = sel.F1.InnerPath;
-            var f2 = sel.F2.InnerPath;
-
-            var file1 = _loader.Extract(sel.F1.ZipFile, sel.F1.InnerPath);
-            var file2 = _loader.Extract(sel.F2.ZipFile, sel.F2.InnerPath);
-
-            if (!string.IsNullOrEmpty(file1))
-                _toCleanup.Add(file1);
-            if (!string.IsNullOrEmpty(file2))
-                _toCleanup.Add(file2);
-
-            try
-            {
-                pictureBox1.Image = Image.FromStream(new MemoryStream(File.ReadAllBytes(file1))); // no file lock
-                imageStat(pictureBox1, label1);
-            }
-            catch
-            {
-
-            }
-            try
-            {
-                pictureBox2.Image = Image.FromStream(new MemoryStream(File.ReadAllBytes(file2))); // no file lock
-                imageStat(pictureBox2, label2);
-            }
-            catch
-            {
-
-            }
-        }
-
-        private void imageStat(PictureBox ctl, Label ctl2)
-        {
-            var info1 = new FileInfo(ctl.ImageLocation);
-            var size1 = ctl.Image.Size;
-            ctl2.Text = string.Format("{0},{1} [{2:0.00}K]", size1.Width, size1.Height, (double)info1.Length / 1024.0);
         }
 
         internal List<ScoreEntry2> selectZipPair(ScoreEntry sel)

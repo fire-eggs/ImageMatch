@@ -14,10 +14,6 @@ namespace howto_image_hash
             pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 
-            // TODO hack, hack
-            base.label1 = label1;
-            base.label2 = label2;
-
             FormClosing += MasterDetail3_FormClosing;
         }
 
