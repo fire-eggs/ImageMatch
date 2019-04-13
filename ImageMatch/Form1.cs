@@ -555,13 +555,15 @@ namespace howto_image_hash
         private void button2_Click_1(object sender, EventArgs e)
         {
             MasterDetail2 cf = new MasterDetail2(_log, _zipload);
-            cf.ShowDialog();
+            _ = cf.ShowDialog();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            this.WindowState = FormWindowState.Minimized;
             MasterDetail3 cf = new MasterDetail3(_log, _zipload);
-            cf.ShowDialog();
+            cf.Owner = this;
+            cf.Show();
         }
     }
 }

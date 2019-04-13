@@ -25,6 +25,7 @@ namespace howto_image_hash
         {
             pictureBox1.Image = pictureBox2.Image = null; // clear handles
             Cleanup();
+            Owner.WindowState = System.Windows.Forms.FormWindowState.Normal;
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
