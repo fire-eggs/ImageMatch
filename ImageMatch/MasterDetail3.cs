@@ -58,6 +58,7 @@ namespace howto_image_hash
         private void listFilePairs_SelectedIndexChanged(object sender, EventArgs e)
         {
             var se = listFilePairs.SelectedItem as ScoreEntry2;
+            btnDiff.Enabled = !(se == null || se.F1 == null || se.F2 == null);
             setPix(se, true, pictureBox1, label1);
             setPix(se, false, pictureBox2, label2);
         }
@@ -101,6 +102,19 @@ namespace howto_image_hash
         public override void SetNote(string text)
         {
             txtNote.Text = text;
+        }
+
+        private void BtnDiff_Click(object sender, EventArgs e)
+        {
+            var sel = listFilePairs.SelectedItem as ScoreEntry2;
+            DoDiff(sel);
+
+
+        }
+
+        private void BtnShow_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

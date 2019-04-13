@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace howto_image_hash
 {
@@ -11,22 +12,35 @@ namespace howto_image_hash
         private bool swap;
         private Size _mySize;
         private Point _myLoc;
+        private ArchiveLoader _loader;
+        private Logger _logger;
+
+        private string img1;
+        private string img2;
 
         public bool Stretch { get; set; }
 
-        private ScoreEntry _group;
+        private ScoreEntry2 _group;
 
-        public ScoreEntry Group
+        public ScoreEntry2 Group
         {
             set
             {
                 _group = value;
+
+                // extract from the zipfile only once
+                img1 = _loader.Extract(_group.F1.ZipFile, _group.F1.InnerPath);
+                img2 = _loader.Extract(_group.F2.ZipFile, _group.F2.InnerPath);
+
                 doImage();
             }
         }
 
-        public ShowDiff()
+        public ShowDiff(ArchiveLoader load, Logger log)
         {
+            _loader = load;
+            _logger = log;
+
             InitializeComponent();
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
 
@@ -48,6 +62,14 @@ namespace howto_image_hash
             pictureBox1.Image = null;
             _mySize = Size;
             _myLoc = Location;
+
+            // clean up extracted files
+            try
+            {
+                File.Delete(img1);
+                File.Delete(img2);
+            }
+            catch { }
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -56,37 +78,24 @@ namespace howto_image_hash
             doImage();
         }
 
-        //public void Set(string f1, string f2)
-        //{
-        //    _left = f1;
-        //    _right = f2;
-        //    doImage();
-        //}
-
         private void doImage()
         {
-#if false
             try
             {
                 if (!swap)
                 {
                     Text = "Left vs Right";
-                    pictureBox1.Image = kbrDiff(_group.F1.path,
-                                                _group.F2.path,
-                                                Stretch);
+                    pictureBox1.Image = kbrDiff(img1, img2, Stretch);
                 }
                 else
                 {
                     Text = "Right vs Left";
-                    pictureBox1.Image = kbrDiff(_group.F2.path,
-                                                _group.F1.path,
-                                                Stretch);
+                    pictureBox1.Image = kbrDiff(img2, img1, Stretch);
                 }
             }
             catch (Exception)
             {
             }
-#endif
         }
 
         #region kbrDiff
@@ -99,8 +108,9 @@ namespace howto_image_hash
 
         public static Bitmap kbrDiff(string FileName1, string FileName2, bool stretch)
         {
-            if (!IsGraphic(FileName1) || !IsGraphic(FileName2))
-                return new Bitmap(1, 1);
+            // TODO extract returns a .tmp file
+//            if (!IsGraphic(FileName1) || !IsGraphic(FileName2))
+//                return new Bitmap(1, 1);
 
             using (var TempImage1 = new Bitmap(FileName1))
             using (var TempImage2 = new Bitmap(FileName2))
@@ -152,6 +162,7 @@ namespace howto_image_hash
                 case PixelFormat.Format32bppPArgb:
                 case PixelFormat.Format32bppRgb:
                     return 4;
+                // TODO convert to supported format
                 // 2011/12/17 this isn't working: resulting in 'black' pixels for many monochrome images
                 //case PixelFormat.Format8bppIndexed:
                 //    return 1;

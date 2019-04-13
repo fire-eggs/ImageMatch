@@ -67,16 +67,16 @@ namespace howto_image_hash
 
         private void DoShowDiff(bool stretch)
         {
-            var sel = listBox1.SelectedItem as ScoreEntry;
-            if (sel == null)
-                return;
-            if (_diffDlg == null)
-            {
-                _diffDlg = new ShowDiff() { Owner = this };
-            }
-            _diffDlg.Stretch = stretch;
-            _diffDlg.Group = sel;
-            _diffDlg.ShowDialog();
+            //var sel = listBox1.SelectedItem as ScoreEntry;
+            //if (sel == null)
+            //    return;
+            //if (_diffDlg == null)
+            //{
+            //    _diffDlg = new ShowDiff(_loader,_log) { Owner = this };
+            //}
+            //_diffDlg.Stretch = stretch;
+            //_diffDlg.Group = sel;
+            //_diffDlg.ShowDialog();
         }
 
         private ShowDiff _diffDlg;

@@ -28,6 +28,8 @@ namespace howto_image_hash
         private List<string> _hideLeft = new List<string>();
         private List<string> _hideRight = new List<string>();
         private List<string> _toCleanup = new List<string>();
+        private ShowDiff _diffDlg;
+
 
         [Obsolete("Designer only", true)]
         public MasterDetailBase()
@@ -297,7 +299,7 @@ namespace howto_image_hash
                         _worker2.ReportProgress((int)perc);
                     }
 
-                    if (score != 0)
+                    if (score > 5)
                     {
                         ScoreEntry se = new ScoreEntry();
                         se.zipfile1 = ziplist[dex];
@@ -306,6 +308,10 @@ namespace howto_image_hash
                         se.zip2count = zipFiles2.Count;
                         se.score = score;
                         se.sameSource = zipFiles1[0].source == zipFiles2[0].source;
+
+                        //if (se.zipfile1.Contains("glitter") ||
+                        //    se.zipfile2.Contains("glitter"))
+                        //    System.Diagnostics.Debugger.Break();
                         _scores.Add(se);
                     }
                 }
@@ -326,7 +332,7 @@ namespace howto_image_hash
                     var hze2 = ziplist2[dex2];
 
                     var ascore = CalcScoreP(hze1, hze2);
-                    if (ascore < 10)
+                    if (ascore < 16)
                     {
                         match = true;
                         break; // found a match, don't need to keep testing
@@ -443,6 +449,21 @@ namespace howto_image_hash
                     // TODO file still locked?
                 }
             }
+        }
+
+        internal void DoDiff(ScoreEntry2 sel)
+        {
+            if (sel == null)
+                return;
+            if (_diffDlg == null)
+            {
+                _diffDlg = new ShowDiff(_loader,_log) { Owner = this };
+            }
+            _diffDlg.Stretch = true; // stretch;
+            _diffDlg.Group = sel;
+
+            _diffDlg.ShowDialog();
+
         }
 
         public virtual void updateProgress(int value) { throw new Exception(); }

@@ -35,16 +35,18 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnReport = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listZipPairs = new System.Windows.Forms.ListBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.listFilePairs = new System.Windows.Forms.ListBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnHideL = new System.Windows.Forms.Button();
             this.btnHideR = new System.Windows.Forms.Button();
             this.txtNote = new System.Windows.Forms.TextBox();
+            this.btnDiff = new System.Windows.Forms.Button();
+            this.btnShow = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -54,18 +56,21 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.listBox1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.listZipPairs, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.pictureBox1, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 2, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label2, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.pictureBox2, 3, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 3, 4);
             this.tableLayoutPanel1.Controls.Add(this.label1, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.listBox2, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.listFilePairs, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnDiff, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.btnShow, 2, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -81,7 +86,7 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel1, 3);
+            this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel1, 4);
             this.flowLayoutPanel1.Controls.Add(this.btnLoad);
             this.flowLayoutPanel1.Controls.Add(this.progressBar1);
             this.flowLayoutPanel1.Controls.Add(this.btnClear);
@@ -140,29 +145,29 @@
             this.btnReport.UseVisualStyleBackColor = true;
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
-            // listBox1
+            // listZipPairs
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.listBox1, 3);
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.HorizontalScrollbar = true;
-            this.listBox1.IntegralHeight = false;
-            this.listBox1.ItemHeight = 20;
-            this.listBox1.Location = new System.Drawing.Point(3, 38);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(1057, 141);
-            this.listBox1.TabIndex = 1;
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.tableLayoutPanel1.SetColumnSpan(this.listZipPairs, 4);
+            this.listZipPairs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listZipPairs.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listZipPairs.FormattingEnabled = true;
+            this.listZipPairs.HorizontalScrollbar = true;
+            this.listZipPairs.IntegralHeight = false;
+            this.listZipPairs.ItemHeight = 20;
+            this.listZipPairs.Location = new System.Drawing.Point(3, 38);
+            this.listZipPairs.Name = "listZipPairs";
+            this.listZipPairs.Size = new System.Drawing.Size(1057, 141);
+            this.listZipPairs.TabIndex = 1;
+            this.listZipPairs.SelectedIndexChanged += new System.EventHandler(this.listZipPairs_SelectedIndexChanged);
             // 
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(321, 185);
+            this.pictureBox1.Location = new System.Drawing.Point(306, 185);
             this.pictureBox1.Name = "pictureBox1";
             this.tableLayoutPanel1.SetRowSpan(this.pictureBox1, 2);
-            this.pictureBox1.Size = new System.Drawing.Size(366, 328);
+            this.pictureBox1.Size = new System.Drawing.Size(348, 328);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
@@ -171,10 +176,10 @@
             // 
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Location = new System.Drawing.Point(693, 185);
+            this.pictureBox2.Location = new System.Drawing.Point(710, 185);
             this.pictureBox2.Name = "pictureBox2";
             this.tableLayoutPanel1.SetRowSpan(this.pictureBox2, 2);
-            this.pictureBox2.Size = new System.Drawing.Size(367, 328);
+            this.pictureBox2.Size = new System.Drawing.Size(350, 328);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 4;
             this.pictureBox2.TabStop = false;
@@ -183,7 +188,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(693, 516);
+            this.label2.Location = new System.Drawing.Point(710, 516);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 18);
             this.label2.TabIndex = 6;
@@ -193,24 +198,24 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(321, 516);
+            this.label1.Location = new System.Drawing.Point(306, 516);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 18);
             this.label1.TabIndex = 5;
             this.label1.Text = "label1";
             // 
-            // listBox2
+            // listFilePairs
             // 
-            this.listBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.IntegralHeight = false;
-            this.listBox2.ItemHeight = 18;
-            this.listBox2.Location = new System.Drawing.Point(3, 246);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(312, 267);
-            this.listBox2.TabIndex = 2;
-            this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
+            this.listFilePairs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listFilePairs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listFilePairs.FormattingEnabled = true;
+            this.listFilePairs.IntegralHeight = false;
+            this.listFilePairs.ItemHeight = 18;
+            this.listFilePairs.Location = new System.Drawing.Point(3, 246);
+            this.listFilePairs.Name = "listFilePairs";
+            this.listFilePairs.Size = new System.Drawing.Size(297, 267);
+            this.listFilePairs.TabIndex = 2;
+            this.listFilePairs.SelectedIndexChanged += new System.EventHandler(this.listFilePairs_SelectedIndexChanged);
             // 
             // flowLayoutPanel2
             // 
@@ -250,6 +255,30 @@
             this.txtNote.Size = new System.Drawing.Size(200, 20);
             this.txtNote.TabIndex = 9;
             // 
+            // btnDiff
+            // 
+            this.btnDiff.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btnDiff.AutoSize = true;
+            this.btnDiff.Location = new System.Drawing.Point(665, 217);
+            this.btnDiff.Name = "btnDiff";
+            this.btnDiff.Size = new System.Drawing.Size(33, 23);
+            this.btnDiff.TabIndex = 9;
+            this.btnDiff.Text = "Diff";
+            this.btnDiff.UseVisualStyleBackColor = true;
+            this.btnDiff.Click += new System.EventHandler(this.BtnDiff_Click);
+            // 
+            // btnShow
+            // 
+            this.btnShow.AutoSize = true;
+            this.btnShow.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnShow.Location = new System.Drawing.Point(660, 246);
+            this.btnShow.Name = "btnShow";
+            this.btnShow.Size = new System.Drawing.Size(44, 23);
+            this.btnShow.TabIndex = 10;
+            this.btnShow.Text = "Show";
+            this.btnShow.UseVisualStyleBackColor = true;
+            this.btnShow.Click += new System.EventHandler(this.BtnShow_Click);
+            // 
             // MasterDetail3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -278,8 +307,8 @@
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnReport;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox listZipPairs;
+        private System.Windows.Forms.ListBox listFilePairs;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label1;
@@ -289,5 +318,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Button btnHideR;
         private System.Windows.Forms.TextBox txtNote;
+        private System.Windows.Forms.Button btnDiff;
+        private System.Windows.Forms.Button btnShow;
     }
 }
