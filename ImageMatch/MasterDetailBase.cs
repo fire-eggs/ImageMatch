@@ -12,8 +12,7 @@ using HashZipEntry = howto_image_hash.Form1.HashZipEntry;
 
 namespace howto_image_hash
 {
-    [TypeDescriptionProvider(typeof(AbstractControlDescriptionProvider<MasterDetailBase, Form>))]
-    public abstract class MasterDetailBase : Form
+    public class MasterDetailBase : Form
     {
         private Logger _log;
         private ArchiveLoader _loader;
@@ -446,10 +445,10 @@ namespace howto_image_hash
             }
         }
 
-        public abstract void updateProgress(int value);
+        public virtual void updateProgress(int value) { throw new Exception(); }
 
-        public abstract void LoadList();
+        public virtual void LoadList() { throw new Exception(); }
 
-        public abstract void SetNote(string text);
+        public virtual void SetNote(string text) { throw new Exception(); }
     }
 }

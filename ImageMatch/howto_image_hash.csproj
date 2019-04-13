@@ -115,7 +115,6 @@
     <Compile Include="ShowDiff.Designer.cs">
       <DependentUpon>ShowDiff.cs</DependentUpon>
     </Compile>
-    <Compile Include="TypeDescriptor.cs" />
     <Compile Include="VPNode.cs" />
     <Compile Include="VPTree.cs" />
     <EmbeddedResource Include="CompareForm.resx">
