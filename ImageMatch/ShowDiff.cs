@@ -18,6 +18,8 @@ namespace howto_image_hash
         private string img1;
         private string img2;
 
+        public bool Diff { get; set; } // whether to show the difference or not
+
         public bool Stretch { get; set; }
 
         private ScoreEntry2 _group;
@@ -84,13 +86,13 @@ namespace howto_image_hash
             {
                 if (!swap)
                 {
-                    Text = "Left vs Right";
-                    pictureBox1.Image = kbrDiff(img1, img2, Stretch);
+                    Text = Diff ? "Left vs Right" : "Left Image";
+                    pictureBox1.Image = Diff ? kbrDiff(img1, img2, Stretch) : Image.FromFile(img1);
                 }
                 else
                 {
-                    Text = "Right vs Left";
-                    pictureBox1.Image = kbrDiff(img2, img1, Stretch);
+                    Text = Diff ? "Right vs Left" : "Right Image";
+                    pictureBox1.Image = Diff ? kbrDiff(img2, img1, Stretch) : Image.FromFile(img2);
                 }
             }
             catch (Exception)

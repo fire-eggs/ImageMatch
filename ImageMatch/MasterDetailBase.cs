@@ -451,7 +451,7 @@ namespace howto_image_hash
             }
         }
 
-        internal void DoDiff(ScoreEntry2 sel)
+        internal void DoDiff(ScoreEntry2 sel, bool showonly=false)
         {
             if (sel == null)
                 return;
@@ -460,6 +460,7 @@ namespace howto_image_hash
                 _diffDlg = new ShowDiff(_loader,_log) { Owner = this };
             }
             _diffDlg.Stretch = true; // stretch;
+            _diffDlg.Diff = !showonly;
             _diffDlg.Group = sel;
 
             _diffDlg.ShowDialog();

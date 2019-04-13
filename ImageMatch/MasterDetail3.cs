@@ -108,13 +108,12 @@ namespace howto_image_hash
         {
             var sel = listFilePairs.SelectedItem as ScoreEntry2;
             DoDiff(sel);
-
-
         }
 
         private void BtnShow_Click(object sender, EventArgs e)
         {
-
+            var sel = listFilePairs.SelectedItem as ScoreEntry2;
+            DoDiff(sel, true);
         }
     }
 }
