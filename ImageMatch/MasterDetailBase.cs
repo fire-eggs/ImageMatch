@@ -12,6 +12,7 @@ using HashZipEntry = howto_image_hash.Form1.HashZipEntry;
 
 namespace howto_image_hash
 {
+    [TypeDescriptionProvider(typeof(AbstractControlDescriptionProvider<MasterDetailBase, Form>))]
     public abstract class MasterDetailBase : Form
     {
         private Logger _log;
@@ -28,6 +29,11 @@ namespace howto_image_hash
         private List<string> _hideLeft = new List<string>();
         private List<string> _hideRight = new List<string>();
         private List<string> _toCleanup = new List<string>();
+
+        [Obsolete("Designer only", true)]
+        public MasterDetailBase()
+        {
+        }
 
         public MasterDetailBase(Logger log, ArchiveLoader loader)
         {
@@ -438,9 +444,10 @@ namespace howto_image_hash
                     // TODO file still locked?
                 }
             }
-        }            
+        }
 
         public abstract void updateProgress(int value);
+
         public abstract void LoadList();
 
         public abstract void SetNote(string text);

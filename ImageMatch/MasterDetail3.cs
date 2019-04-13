@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace howto_image_hash
 {
@@ -10,11 +11,6 @@ namespace howto_image_hash
             : base(log, load)
         {
             InitializeComponent();
-
-            pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-
-            FormClosing += MasterDetail3_FormClosing;
         }
 
         private void MasterDetail3_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
