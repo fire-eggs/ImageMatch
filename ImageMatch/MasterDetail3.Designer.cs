@@ -47,6 +47,7 @@
             this.txtNote = new System.Windows.Forms.TextBox();
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnShow = new System.Windows.Forms.Button();
+            this.splitButton1 = new wyDay.Controls.SplitButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -88,6 +89,7 @@
             this.flowLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel1, 4);
             this.flowLayoutPanel1.Controls.Add(this.btnLoad);
+            this.flowLayoutPanel1.Controls.Add(this.splitButton1);
             this.flowLayoutPanel1.Controls.Add(this.progressBar1);
             this.flowLayoutPanel1.Controls.Add(this.btnClear);
             this.flowLayoutPanel1.Controls.Add(this.btnFilter);
@@ -110,14 +112,14 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(84, 3);
+            this.progressBar1.Location = new System.Drawing.Point(165, 3);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(194, 23);
             this.progressBar1.TabIndex = 3;
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(284, 3);
+            this.btnClear.Location = new System.Drawing.Point(365, 3);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 1;
@@ -127,7 +129,7 @@
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(365, 3);
+            this.btnFilter.Location = new System.Drawing.Point(446, 3);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(75, 23);
             this.btnFilter.TabIndex = 4;
@@ -137,7 +139,7 @@
             // 
             // btnReport
             // 
-            this.btnReport.Location = new System.Drawing.Point(446, 3);
+            this.btnReport.Location = new System.Drawing.Point(527, 3);
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(75, 23);
             this.btnReport.TabIndex = 2;
@@ -279,6 +281,16 @@
             this.btnShow.UseVisualStyleBackColor = true;
             this.btnShow.Click += new System.EventHandler(this.BtnShow_Click);
             // 
+            // splitButton1
+            // 
+            this.splitButton1.AutoSize = true;
+            this.splitButton1.Location = new System.Drawing.Point(84, 3);
+            this.splitButton1.Name = "splitButton1";
+            this.splitButton1.Size = new System.Drawing.Size(75, 23);
+            this.splitButton1.TabIndex = 5;
+            this.splitButton1.Text = "Load";
+            this.splitButton1.UseVisualStyleBackColor = true;
+            // 
             // MasterDetail3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -291,6 +303,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.flowLayoutPanel2.ResumeLayout(false);
@@ -320,5 +333,6 @@
         private System.Windows.Forms.TextBox txtNote;
         private System.Windows.Forms.Button btnDiff;
         private System.Windows.Forms.Button btnShow;
+        private wyDay.Controls.SplitButton splitButton1;
     }
 }

@@ -1,19 +1,48 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace howto_image_hash
 {
     public partial class MasterDetail3 : MasterDetailBase
     {
         ScoreEntry _oldSel;
+        DrawAnce.MruStripMenu _mru;
 
         public MasterDetail3(Logger log, ArchiveLoader load)
             : base(log, load)
         {
             InitializeComponent();
+
+            ToolStripDropDownMenu tsm = new ToolStripDropDownMenu();
+            splitButton1.SplitMenuStrip = tsm;
+
+            _mru = new DrawAnce.MruStripMenu(tsm, onMru, 5);
+
+            LoadSettings(); // NOTE: _must_ go after _mru creation
+
+            splitButton1.Click += this.btnLoad_Click;
+        }
+
+        private void onMru(int number, string filename)
+        {
+            if (!Directory.Exists(filename))
+            {
+                _mru.RemoveFile(number);
+                MessageBox.Show("The path no longer exists: " + filename);
+                return;
+            }
+
+            // TODO process could fail for some reason, in which case remove the file from the MRU list
+            _mru.SetFirstFile(number);
+            loadHashFile(filename);
         }
 
         private void MasterDetail3_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
         {
+            SaveSettings();
             pictureBox1.Image = pictureBox2.Image = null; // clear handles
             Cleanup();
             Owner.WindowState = System.Windows.Forms.FormWindowState.Normal;
@@ -23,7 +52,9 @@ namespace howto_image_hash
         {
             // load a htih_pz.txt file
             ClearForLoad();
-            loadHashFile();
+            string path = loadHashFile();
+            if (path != null)
+                _mru.AddFile(path);
         }
 
         private void btnClear_Click(object sender, EventArgs e)
@@ -115,5 +146,47 @@ namespace howto_image_hash
             var sel = listFilePairs.SelectedItem as ScoreEntry2;
             DoDiff(sel, true);
         }
+
+
+        private DASettings _mysettings;
+        private List<string> _fileHistory;
+
+        private void LoadSettings()
+        {
+            _mysettings = DASettings.Load();
+
+            // No existing settings. Use default.
+            if (_mysettings.Fake)
+            {
+                StartPosition = FormStartPosition.CenterScreen;
+            }
+            else
+            {
+                // restore windows position
+                StartPosition = FormStartPosition.Manual;
+                Top = _mysettings.WinTop;
+                Left = _mysettings.WinLeft;
+                Height = _mysettings.WinHigh;
+                Width = _mysettings.WinWide;
+                _fileHistory = _mysettings.PathHistory ?? new List<string>();
+                _fileHistory.Remove(null);
+                _mru.SetFiles(_fileHistory.ToArray());
+            }
+        }
+
+        private void SaveSettings()
+        {
+            // TODO check minimized
+            var bounds = DesktopBounds;
+            _mysettings.WinTop = Location.Y;
+            _mysettings.WinLeft = Location.X;
+            _mysettings.WinHigh = bounds.Height;
+            _mysettings.WinWide = bounds.Width;
+            _mysettings.Fake = false;
+            _mysettings.PathHistory = _mru.GetFiles().ToList();
+            _mysettings.Save();
+        }
+
+
     }
 }

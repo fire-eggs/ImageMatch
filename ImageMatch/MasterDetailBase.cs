@@ -162,15 +162,21 @@ namespace howto_image_hash
             return retlist;
         }
 
-        internal void loadHashFile()
+        internal string loadHashFile()
         {
             var fbd = new FolderBrowserDialog();
             fbd.ShowNewFolderButton = false;
             if (!string.IsNullOrEmpty(_pathmemory))
                 fbd.SelectedPath = _pathmemory;
             if (fbd.ShowDialog() != DialogResult.OK)
-                return;
+                return null;
             var path = fbd.SelectedPath;
+            loadHashFile(path);
+            return path;
+        }
+
+        internal void loadHashFile(string path)
+        {
             _pathmemory = path;
 
             //var toload1 = Path.Combine(path, "htih.txt");

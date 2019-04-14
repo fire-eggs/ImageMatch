@@ -50,6 +50,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -64,6 +65,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSettings.cs" />
     <Compile Include="ArchiveLoader.cs" />
     <Compile Include="CompareForm.cs">
       <SubType>Form</SubType>
@@ -99,6 +101,7 @@
     <Compile Include="MasterDetailBase.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MruStripMenu.cs" />
     <Compile Include="PHash2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,6 +117,9 @@
     </Compile>
     <Compile Include="ShowDiff.Designer.cs">
       <DependentUpon>ShowDiff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SplitButton.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="VPNode.cs" />
     <Compile Include="VPTree.cs" />
