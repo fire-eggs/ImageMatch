@@ -40,12 +40,13 @@ namespace howto_image_hash
             loadHashFile(filename);
         }
 
-        private void MasterDetail3_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)
+        private void MasterDetail3_FormClosing(object sender, FormClosingEventArgs e)
         {
+            WindowState = FormWindowState.Normal; // don't save windows bounds when minimized
             SaveSettings();
             pictureBox1.Image = pictureBox2.Image = null; // clear handles
             Cleanup();
-            Owner.WindowState = System.Windows.Forms.FormWindowState.Normal;
+            Owner.WindowState = FormWindowState.Normal;
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -176,7 +177,6 @@ namespace howto_image_hash
 
         private void SaveSettings()
         {
-            // TODO check minimized
             var bounds = DesktopBounds;
             _mysettings.WinTop = Location.Y;
             _mysettings.WinLeft = Location.X;
