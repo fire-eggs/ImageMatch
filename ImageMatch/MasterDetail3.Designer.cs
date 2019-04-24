@@ -31,6 +31,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnLoad = new System.Windows.Forms.Button();
+            this.splitButton1 = new wyDay.Controls.SplitButton();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
@@ -47,7 +48,6 @@
             this.txtNote = new System.Windows.Forms.TextBox();
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnShow = new System.Windows.Forms.Button();
-            this.splitButton1 = new wyDay.Controls.SplitButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -109,6 +109,16 @@
             this.btnLoad.Text = "Load";
             this.btnLoad.UseVisualStyleBackColor = true;
             this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+            // 
+            // splitButton1
+            // 
+            this.splitButton1.AutoSize = true;
+            this.splitButton1.Location = new System.Drawing.Point(84, 3);
+            this.splitButton1.Name = "splitButton1";
+            this.splitButton1.Size = new System.Drawing.Size(75, 23);
+            this.splitButton1.TabIndex = 5;
+            this.splitButton1.Text = "Load";
+            this.splitButton1.UseVisualStyleBackColor = true;
             // 
             // progressBar1
             // 
@@ -211,10 +221,12 @@
             this.listFilePairs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listFilePairs.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listFilePairs.FormattingEnabled = true;
+            this.listFilePairs.HorizontalScrollbar = true;
             this.listFilePairs.IntegralHeight = false;
             this.listFilePairs.ItemHeight = 18;
             this.listFilePairs.Location = new System.Drawing.Point(3, 246);
             this.listFilePairs.Name = "listFilePairs";
+            this.listFilePairs.ScrollAlwaysVisible = true;
             this.listFilePairs.Size = new System.Drawing.Size(297, 267);
             this.listFilePairs.TabIndex = 2;
             this.listFilePairs.SelectedIndexChanged += new System.EventHandler(this.listFilePairs_SelectedIndexChanged);
@@ -280,16 +292,6 @@
             this.btnShow.Text = "Show";
             this.btnShow.UseVisualStyleBackColor = true;
             this.btnShow.Click += new System.EventHandler(this.BtnShow_Click);
-            // 
-            // splitButton1
-            // 
-            this.splitButton1.AutoSize = true;
-            this.splitButton1.Location = new System.Drawing.Point(84, 3);
-            this.splitButton1.Name = "splitButton1";
-            this.splitButton1.Size = new System.Drawing.Size(75, 23);
-            this.splitButton1.TabIndex = 5;
-            this.splitButton1.Text = "Load";
-            this.splitButton1.UseVisualStyleBackColor = true;
             // 
             // MasterDetail3
             // 
