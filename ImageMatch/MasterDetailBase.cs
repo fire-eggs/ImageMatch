@@ -22,7 +22,7 @@ namespace howto_image_hash
         private bool _filterSameTree;
         private List<ScoreEntry> _viewList; // possibly filtered list
         BackgroundWorker _worker2;
-        ConcurrentBag<ScoreEntry> _scores; // for parallelism
+        HashSet<ScoreEntry> _scores;
         List<ScoreEntry> _scoreList; // for viewing
         private string _pathmemory;
         private List<string> _hideLeft = new List<string>();
@@ -228,7 +228,223 @@ namespace howto_image_hash
 
             _log.log(string.Format("to compare - Zips:{0} Files:{1}", _zipDict.Keys.Count, _toCompare.Count));
 
-            CompareAsync();
+            //CompareAsync();
+            CompareVPTree();
+        }
+
+        private void CompareVPTree()
+        {
+            var ziplist = _zipDict.Keys.ToArray();
+            int zipCount = ziplist.Length;
+            if (zipCount < 1)
+                return;
+
+            _scores = new HashSet<ScoreEntry>(); // use a set so that AxB and BxA are not duplicated
+
+            var tree = new VPTree<HashZipEntry>(CalcScoreP);
+            var root = tree.make_vp(_toCompare);
+            var ret = new List<HashZipEntry>();
+            var thisfilematches = new HashSet<string>();
+            var filesdone = new HashSet<HashZipEntry>();
+            var zipsdone = new HashSet<string>();
+
+            updateProgress(0);
+            int doneCount = 0;
+
+            var pairset = new HashSet<ScoreEntry2>();
+            foreach (var azip in ziplist)
+            {
+                var filelist = _zipDict[azip];
+                foreach (var afile in filelist)
+                {
+                    tree.query_vp(root, afile, 1, ret);
+
+                    foreach (var aret in ret)
+                    {
+                        if (aret == afile)  // skip self
+                            continue;
+                        if (aret.ZipFile == afile.ZipFile) // skip self-zip matches
+                            continue;
+                        int dist = CalcScoreP(afile, aret);
+                        if (dist > 16)
+                            continue;
+
+                        ScoreEntry2 se2 = new ScoreEntry2();
+                        se2.F1 = afile;
+                        se2.F2 = aret;
+                        se2.score = dist;
+                        pairset.Add(se2);
+                    }
+
+                    ret.Clear();
+                }
+
+
+
+            //foreach (var azip in ziplist)
+            //{
+            //    zipsdone.Add(azip);
+            //    var filelist = _zipDict[azip];
+            //    var matchlist = new Dictionary<string, int>();
+
+            //    foreach (var comp in filelist)
+            //    {
+            //        filesdone.Add(comp);
+
+            //        tree.query_vp(root, comp, 1, ret);
+
+            //        //int selfdups = ret.Where(x => x.ZipFile == azip).Count();
+            //        //if (selfdups < 2)
+            //            foreach (var aret in ret)
+            //            {
+            //                if (zipsdone.Contains(aret.ZipFile))
+            //                    continue;
+            //                if (filesdone.Contains(aret))
+            //                    continue;
+            //                thisfilematches.Add(aret.ZipFile);
+            //            }
+
+            //        ret.Clear();
+
+            //        foreach (var zipmatch in thisfilematches)
+            //            if (zipmatch != azip)
+            //                if (matchlist.ContainsKey(zipmatch))
+            //                    matchlist[zipmatch]++;
+            //                else
+            //                    matchlist.Add(zipmatch, 1);
+            //    }
+
+            //    thisfilematches.Clear();
+                    //if (ret.Count > 1) // TODO won't this always be true [as 'comp' is in the tree and will match]
+                    //{
+                    //    foreach (var aret in ret)
+                    //    {
+                    //        // ignore a match against self or a match against self-zip
+                    //        if (aret.Equals(comp) || aret.ZipFile == comp.ZipFile)
+                    //            continue;
+
+                    //        // each aret may be from a distinct zip
+                    //        // need to turn into a set of zip+match counts
+                    //        if (matchlist.ContainsKey(aret.ZipFile))
+                    //        {
+                    //            if (newfile)
+                    //                matchlist[aret.ZipFile]++;
+                    //            //newfile = false;
+                    //        }
+                    //        else
+                    //        {
+                    //            matchlist.Add(aret.ZipFile, 1);
+                    //        }
+                    //    }
+                    //}
+
+//                    ret.Clear();
+//                }
+
+                //// build ScoreEntry list based on number of matches for azip against other zips
+                //foreach (var amatch in matchlist)
+                //{
+                //    string who = amatch.Key;
+                //    int matches = amatch.Value;
+                //    var zip2 = _zipDict[who];
+
+                //    int score1 = (int)(((double)matches / filelist.Count) * 100.0);
+                //    int score2 = (int)(((double)matches / zip2.Count) * 100.0);
+                //    int score = Math.Max(score1, score2);
+
+                //    //System.Diagnostics.Debug.Assert(score <= 100.0);
+
+                //    if (score > 20)
+                //    {
+                //        ScoreEntry se = new ScoreEntry();
+                //        se.zipfile1 = azip;
+                //        se.zip1count = filelist.Count;
+                //        se.zipfile2 = who;
+                //        se.zip2count = zip2.Count;
+                //        se.score = score;
+                //        se.sameSource = filelist.First().source == zip2.First().source;
+
+                //        _scores.Add(se);
+                //    }
+                //}
+
+                doneCount++;
+                if (doneCount % 5 == 0)
+                {
+                    int perc = (int)(100.0 * doneCount / zipCount);
+                    updateProgress(perc);
+                }
+            }
+
+            // Turn pairset into _scores
+            var pairlist = pairset.ToList();
+            int matches = 0;
+            HashZipEntry he = pairlist[0].F1;
+            HashZipEntry he2 = pairlist[0].F2;
+            foreach (var apair in pairlist)
+            {
+                if (apair.F1.ZipFile == he.ZipFile)
+                {
+                    if (apair.F2.ZipFile == he2.ZipFile)
+                    {
+                        matches++;
+                    }
+                    else
+                    {
+                        MakeScore(matches, he, he2);
+                        he2 = apair.F2;
+                        matches = 1;
+                    }
+                }
+                else
+                {
+                    MakeScore(matches, he, he2);
+                    he = apair.F1;
+                    he2 = apair.F2;
+                    matches = 1;
+                }
+            }
+
+            updateProgress(0);
+            _scoreList = _scores.ToList();
+            _scores = null;
+
+            _scoreList.Sort(ScoreEntry.Comparer);
+
+            LoadZipList();
+        }
+
+        private void MakeScore(int matches, HashZipEntry he1, HashZipEntry he2)
+        {
+            var zip1 = _zipDict[he1.ZipFile];
+            var zip2 = _zipDict[he2.ZipFile];
+
+            var foo = MakeDetailList(zip1.ToList(), zip2.ToList());
+            int brutematches = 0;
+            foreach (var bar in foo)
+                if (bar.score < 16)
+                    brutematches++;
+
+            int score1 = (int)(((double)matches / zip1.Count) * 100.0);
+            int score2 = (int)(((double)matches / zip2.Count) * 100.0);
+            int score = Math.Max(score1, score2);
+
+            int bscore1 = (int)(((double)brutematches / zip1.Count) * 100.0);
+            int bscore2 = (int)(((double)brutematches / zip2.Count) * 100.0);
+            int bscore = Math.Max(bscore1, bscore2);
+
+            if (bscore > 20)
+            {
+                ScoreEntry se = new ScoreEntry();
+                se.zipfile1 = he1.ZipFile;
+                se.zip1count = zip1.Count;
+                se.zipfile2 = he2.ZipFile;
+                se.zip2count = zip2.Count;
+                se.score = bscore;
+                se.sameSource = zip1.First().source == zip2.First().source;
+
+                _scores.Add(se);
+            }
 
         }
 
@@ -236,7 +452,7 @@ namespace howto_image_hash
         {
             _log.logTimer("compareZ", true);
 
-            _scores = new ConcurrentBag<ScoreEntry>();
+            _scores = new HashSet<ScoreEntry>();
 
             if (_worker2 == null)
             {
