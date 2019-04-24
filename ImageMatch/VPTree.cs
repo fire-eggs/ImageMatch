@@ -81,7 +81,7 @@ namespace howto_image_hash
                     farKeys.Add(keys[i]);
             }
 
-            Debug.Assert(nearKeys.Count == nnear);
+            //Debug.Assert(nearKeys.Count == nnear);
             Debug.Assert(farKeys.Count == nfar);
 
             root.threshold = k;
