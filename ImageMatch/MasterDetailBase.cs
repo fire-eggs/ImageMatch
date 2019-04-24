@@ -121,32 +121,38 @@ namespace howto_image_hash
                 var hze1 = ziplist1[dex1];
 
                 bool matched = false;
+                int bestscore = 99;
+                ScoreEntry2 bestmatch = null;
+
                 for (int dex2 = 0; dex2 < ziplist2.Count; dex2++)
                 {
                     var hze2 = ziplist2[dex2];
 
                     var ascore = CalcScoreP(hze1, hze2);
 
-                    // TODO need to keep searching and take the BEST match, not the first! Use VP-tree to fix!
-                    if (ascore < 22)
+                    // TODO would a VP-tree be a better solution? [create a VPtree for ziplist1 and ziplist2 ONLY]
+                    if (ascore < 22 && ascore < bestscore)
                     {
-                        ScoreEntry2 se = new ScoreEntry2();
-                        se.F1 = hze1;
-                        se.F2 = hze2;
-                        se.score = ascore;
-                        retlist.Add(se);
+                        bestmatch = new ScoreEntry2();
+                        bestmatch.F1 = hze1;
+                        bestmatch.F2 = hze2;
+                        bestmatch.score = ascore;
                         matched = true;
                         rightMatch[dex2] = true;
-                        break;
+                        bestscore = ascore;
                     }
                 }
 
-                if (!matched)
+                if (!matched || bestmatch == null)
                 {
                     ScoreEntry2 se = new ScoreEntry2();
                     se.F1 = hze1;
                     se.score = 999 * 2;
                     retlist.Add(se);
+                }
+                else
+                {
+                    retlist.Add(bestmatch);
                 }
             }
 
