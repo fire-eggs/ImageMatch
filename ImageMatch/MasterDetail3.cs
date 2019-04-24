@@ -148,7 +148,31 @@ namespace howto_image_hash
             DoDiff(sel, true);
         }
 
+        private void BtnDelLeft_Click(object sender, EventArgs e)
+        {
+            var sel = listZipPairs.SelectedItem as ScoreEntry;
+            if (sel == null)
+                return;
+            try
+            {
+                File.Delete(sel.zipfile1);
+            }
+            catch { }
+        }
 
+        private void BtnDelRight_Click(object sender, EventArgs e)
+        {
+            var sel = listZipPairs.SelectedItem as ScoreEntry;
+            if (sel == null)
+                return;
+            try
+            {
+                File.Delete(sel.zipfile2);
+            }
+            catch { }
+        }
+
+        #region Settings
         private DASettings _mysettings;
         private List<string> _fileHistory;
 
@@ -186,7 +210,7 @@ namespace howto_image_hash
             _mysettings.PathHistory = _mru.GetFiles().ToList();
             _mysettings.Save();
         }
-
+        #endregion
 
     }
 }
