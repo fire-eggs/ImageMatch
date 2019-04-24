@@ -87,12 +87,14 @@ namespace howto_image_hash
                 if (!swap)
                 {
                     Text = Diff ? "Left vs Right" : "Left Image";
-                    pictureBox1.Image = Diff ? kbrDiff(img1, img2, Stretch) : Image.FromFile(img1);
+                    pictureBox1.Image = Diff ? kbrDiff(img1, img2, Stretch) :
+                        Image.FromStream(new MemoryStream(File.ReadAllBytes(img1))); // no image lock
                 }
                 else
                 {
                     Text = Diff ? "Right vs Left" : "Right Image";
-                    pictureBox1.Image = Diff ? kbrDiff(img2, img1, Stretch) : Image.FromFile(img2);
+                    pictureBox1.Image = Diff ? kbrDiff(img2, img1, Stretch) : 
+                        Image.FromStream(new MemoryStream(File.ReadAllBytes(img2))); // no image lock
                 }
             }
             catch (Exception)
