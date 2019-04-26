@@ -17,15 +17,20 @@ namespace howto_image_hash
         public string status()
         {
             string status;
-            if (score == 100)
+            if (score >= 100) // score more than 100 is possible
             {
                 if (zip1count == zip2count)
                     status = "Match";
                 else if (zip2count > zip1count)
                     status = "R holds L";
-                else status = "huh?";
+                else
+                    status = "L holds R";
             }
-            else
+            else if (score < 50)
+            {
+                status = "Slight";
+            }
+            else 
             {
                 if (zip1count == zip2count)
                     status = "Mixed";
