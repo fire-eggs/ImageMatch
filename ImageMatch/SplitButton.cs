@@ -1,3 +1,8 @@
+// Original SplitButton code from wyday (http://wyday.com/splitbutton/) [V2.1, 2010-11-26]
+//
+// Tweaked to work with ToolStripDropDownMenu
+// Tweaked to NOT drop down an empty menu, act as 'click' instead [mouse only]
+//
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -5,15 +10,11 @@ using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
 
-//Get the latest version of SplitButton at: http://wyday.com/splitbutton/
-
-
 namespace wyDay.Controls
 {
     public class SplitButton : Button
     {
         PushButtonState _state;
-
 
         const int SplitSectionWidth = 18;
 
@@ -25,7 +26,6 @@ namespace wyDay.Controls
         bool isSplitMenuVisible;
 
         ToolStripDropDownMenu m_SplitMenuStrip;
-//        ContextMenuStrip m_SplitMenuStrip;
         ContextMenu m_SplitMenu;
 
         TextFormatFlags textFormatFlags = TextFormatFlags.Default;
@@ -36,19 +36,6 @@ namespace wyDay.Controls
         }
 
         #region Properties
-
-        //[Browsable(false)]
-        //public override ToolStripDropDownMenu ContextMenuStrip
-        //{
-        //    get
-        //    {
-        //        return SplitMenuStrip;
-        //    }
-        //    set
-        //    {
-        //        SplitMenuStrip = value;
-        //    }
-        //}
 
         [DefaultValue(null)]
         public ContextMenu SplitMenu
@@ -270,7 +257,11 @@ namespace wyDay.Controls
 
             if (dropDownRectangle.Contains(e.Location) && !isSplitMenuVisible && e.Button == MouseButtons.Left)
             {
-                ShowContextMenuStrip();
+                // act as button click if the menu is empty
+                if (m_SplitMenuStrip != null && m_SplitMenuStrip.Items.Count > 0)
+                    ShowContextMenuStrip();
+                else
+                    OnClick(null);
             }
             else
             {
@@ -788,7 +779,6 @@ namespace wyDay.Controls
                 skipNextOpen = (dropDownRectangle.Contains(PointToClient(Cursor.Position))) && MouseButtons == MouseButtons.Left;
             }
         }
-
 
         void SplitMenu_Popup(object sender, EventArgs e)
         {
