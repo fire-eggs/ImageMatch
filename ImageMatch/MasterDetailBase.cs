@@ -629,6 +629,10 @@ namespace howto_image_hash
 
         internal void report(StreamWriter sw, ScoreEntry se)
         {
+            // don't include deleted files
+            if (!File.Exists(se.zipfile1) || !File.Exists(se.zipfile2))
+                return;
+
             if (separator == null)
                 separator = new string('-', 50);
             sw.WriteLine("{0,3} - {1}", se.score, se.status());
