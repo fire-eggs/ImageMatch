@@ -51,11 +51,13 @@
             this.txtNote = new System.Windows.Forms.TextBox();
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnShow = new System.Windows.Forms.Button();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.flowLayoutPanel2.SuspendLayout();
+            this.flowLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -109,7 +111,7 @@
             this.splitButton1.Location = new System.Drawing.Point(3, 3);
             this.splitButton1.Name = "splitButton1";
             this.splitButton1.Size = new System.Drawing.Size(75, 23);
-            this.splitButton1.TabIndex = 5;
+            this.splitButton1.TabIndex = 0;
             this.splitButton1.Text = "Load";
             this.splitButton1.UseVisualStyleBackColor = true;
             // 
@@ -118,14 +120,14 @@
             this.progressBar1.Location = new System.Drawing.Point(84, 3);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(194, 23);
-            this.progressBar1.TabIndex = 3;
+            this.progressBar1.TabIndex = 1;
             // 
             // btnClear
             // 
             this.btnClear.Location = new System.Drawing.Point(284, 3);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
-            this.btnClear.TabIndex = 1;
+            this.btnClear.TabIndex = 2;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
@@ -135,7 +137,7 @@
             this.btnFilter.Location = new System.Drawing.Point(365, 3);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(75, 23);
-            this.btnFilter.TabIndex = 4;
+            this.btnFilter.TabIndex = 3;
             this.btnFilter.Text = "Filter";
             this.btnFilter.UseVisualStyleBackColor = true;
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
@@ -145,7 +147,7 @@
             this.btnReport.Location = new System.Drawing.Point(446, 3);
             this.btnReport.Name = "btnReport";
             this.btnReport.Size = new System.Drawing.Size(75, 23);
-            this.btnReport.TabIndex = 2;
+            this.btnReport.TabIndex = 4;
             this.btnReport.Text = "Report";
             this.btnReport.UseVisualStyleBackColor = true;
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
@@ -170,18 +172,18 @@
             this.listZipPairs.ItemHeight = 20;
             this.listZipPairs.Location = new System.Drawing.Point(3, 38);
             this.listZipPairs.Name = "listZipPairs";
-            this.listZipPairs.Size = new System.Drawing.Size(1057, 141);
-            this.listZipPairs.TabIndex = 1;
+            this.listZipPairs.Size = new System.Drawing.Size(1057, 139);
+            this.listZipPairs.TabIndex = 0;
             this.listZipPairs.SelectedIndexChanged += new System.EventHandler(this.listZipPairs_SelectedIndexChanged);
             // 
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(361, 185);
+            this.pictureBox1.Location = new System.Drawing.Point(361, 183);
             this.pictureBox1.Name = "pictureBox1";
             this.tableLayoutPanel1.SetRowSpan(this.pictureBox1, 2);
-            this.pictureBox1.Size = new System.Drawing.Size(321, 328);
+            this.pictureBox1.Size = new System.Drawing.Size(321, 330);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
@@ -190,10 +192,10 @@
             // 
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Location = new System.Drawing.Point(738, 185);
+            this.pictureBox2.Location = new System.Drawing.Point(738, 183);
             this.pictureBox2.Name = "pictureBox2";
             this.tableLayoutPanel1.SetRowSpan(this.pictureBox2, 2);
-            this.pictureBox2.Size = new System.Drawing.Size(322, 328);
+            this.pictureBox2.Size = new System.Drawing.Size(322, 330);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 4;
             this.pictureBox2.TabStop = false;
@@ -226,11 +228,11 @@
             this.listFilePairs.HorizontalScrollbar = true;
             this.listFilePairs.IntegralHeight = false;
             this.listFilePairs.ItemHeight = 18;
-            this.listFilePairs.Location = new System.Drawing.Point(3, 246);
+            this.listFilePairs.Location = new System.Drawing.Point(3, 250);
             this.listFilePairs.Name = "listFilePairs";
             this.listFilePairs.ScrollAlwaysVisible = true;
-            this.listFilePairs.Size = new System.Drawing.Size(352, 267);
-            this.listFilePairs.TabIndex = 2;
+            this.listFilePairs.Size = new System.Drawing.Size(352, 263);
+            this.listFilePairs.TabIndex = 1;
             this.listFilePairs.SelectedIndexChanged += new System.EventHandler(this.listFilePairs_SelectedIndexChanged);
             // 
             // flowLayoutPanel2
@@ -240,11 +242,10 @@
             this.flowLayoutPanel2.Controls.Add(this.btnHideR);
             this.flowLayoutPanel2.Controls.Add(this.btnDelLeft);
             this.flowLayoutPanel2.Controls.Add(this.btnDelRight);
-            this.flowLayoutPanel2.Controls.Add(this.label3);
-            this.flowLayoutPanel2.Controls.Add(this.txtNote);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 185);
+            this.flowLayoutPanel2.Controls.Add(this.flowLayoutPanel3);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 183);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(324, 55);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(324, 61);
             this.flowLayoutPanel2.TabIndex = 8;
             // 
             // btnHideL
@@ -252,7 +253,7 @@
             this.btnHideL.Location = new System.Drawing.Point(3, 3);
             this.btnHideL.Name = "btnHideL";
             this.btnHideL.Size = new System.Drawing.Size(75, 23);
-            this.btnHideL.TabIndex = 7;
+            this.btnHideL.TabIndex = 0;
             this.btnHideL.Text = "Hide (Left)";
             this.btnHideL.UseVisualStyleBackColor = true;
             this.btnHideL.Click += new System.EventHandler(this.btnHideL_Click);
@@ -262,7 +263,7 @@
             this.btnHideR.Location = new System.Drawing.Point(84, 3);
             this.btnHideR.Name = "btnHideR";
             this.btnHideR.Size = new System.Drawing.Size(75, 23);
-            this.btnHideR.TabIndex = 8;
+            this.btnHideR.TabIndex = 1;
             this.btnHideR.Text = "Hide (Right)";
             this.btnHideR.UseVisualStyleBackColor = true;
             this.btnHideR.Click += new System.EventHandler(this.btnHideR_Click);
@@ -272,7 +273,7 @@
             this.btnDelLeft.Location = new System.Drawing.Point(165, 3);
             this.btnDelLeft.Name = "btnDelLeft";
             this.btnDelLeft.Size = new System.Drawing.Size(75, 23);
-            this.btnDelLeft.TabIndex = 10;
+            this.btnDelLeft.TabIndex = 2;
             this.btnDelLeft.Text = "Del. Left";
             this.btnDelLeft.UseVisualStyleBackColor = true;
             this.btnDelLeft.Click += new System.EventHandler(this.BtnDelLeft_Click);
@@ -282,15 +283,16 @@
             this.btnDelRight.Location = new System.Drawing.Point(246, 3);
             this.btnDelRight.Name = "btnDelRight";
             this.btnDelRight.Size = new System.Drawing.Size(75, 23);
-            this.btnDelRight.TabIndex = 11;
+            this.btnDelRight.TabIndex = 3;
             this.btnDelRight.Text = "Del. Right";
             this.btnDelRight.UseVisualStyleBackColor = true;
             this.btnDelRight.Click += new System.EventHandler(this.BtnDelRight_Click);
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 29);
+            this.label3.Location = new System.Drawing.Point(3, 6);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(33, 13);
             this.label3.TabIndex = 12;
@@ -298,19 +300,19 @@
             // 
             // txtNote
             // 
-            this.txtNote.Location = new System.Drawing.Point(42, 32);
+            this.txtNote.Location = new System.Drawing.Point(42, 3);
             this.txtNote.Name = "txtNote";
             this.txtNote.Size = new System.Drawing.Size(200, 20);
-            this.txtNote.TabIndex = 9;
+            this.txtNote.TabIndex = 0;
             // 
             // btnDiff
             // 
             this.btnDiff.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnDiff.AutoSize = true;
-            this.btnDiff.Location = new System.Drawing.Point(693, 217);
+            this.btnDiff.Location = new System.Drawing.Point(693, 221);
             this.btnDiff.Name = "btnDiff";
             this.btnDiff.Size = new System.Drawing.Size(33, 23);
-            this.btnDiff.TabIndex = 9;
+            this.btnDiff.TabIndex = 2;
             this.btnDiff.Text = "Diff";
             this.btnDiff.UseVisualStyleBackColor = true;
             this.btnDiff.Click += new System.EventHandler(this.BtnDiff_Click);
@@ -319,13 +321,24 @@
             // 
             this.btnShow.AutoSize = true;
             this.btnShow.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnShow.Location = new System.Drawing.Point(688, 246);
+            this.btnShow.Location = new System.Drawing.Point(688, 250);
             this.btnShow.Name = "btnShow";
             this.btnShow.Size = new System.Drawing.Size(44, 23);
-            this.btnShow.TabIndex = 10;
+            this.btnShow.TabIndex = 3;
             this.btnShow.Text = "Show";
             this.btnShow.UseVisualStyleBackColor = true;
             this.btnShow.Click += new System.EventHandler(this.BtnShow_Click);
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.AutoSize = true;
+            this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel3.Controls.Add(this.label3);
+            this.flowLayoutPanel3.Controls.Add(this.txtNote);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 32);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(245, 26);
+            this.flowLayoutPanel3.TabIndex = 13;
             // 
             // MasterDetail3
             // 
@@ -344,6 +357,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.flowLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -373,5 +388,6 @@
         private System.Windows.Forms.Button btnDelRight;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
     }
 }
