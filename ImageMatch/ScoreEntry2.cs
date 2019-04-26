@@ -1,10 +1,13 @@
-﻿using System;
+﻿using System.Runtime.InteropServices;
 using HashZipEntry = howto_image_hash.Form1.HashZipEntry;
 
 namespace howto_image_hash
 {
     public class ScoreEntry2
     {
+        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+        private static extern int StrCmpLogicalW(string psz1, string psz2);
+
         public int score;
 
         internal HashZipEntry F1 { get; set; }
@@ -19,9 +22,9 @@ namespace howto_image_hash
         {
             int val = x.score - y.score;
 
-            // TODO: replace this sort with a "explorer style" sort, not lexical
             if (val == 0 && x.F1 != null && y.F1 != null)
-                val = string.Compare(x.F1.InnerPath, y.F1.InnerPath, StringComparison.Ordinal); // same value: sort by name
+                val = StrCmpLogicalW(x.F1.InnerPath, y.F1.InnerPath); // 'natural' sorting
+                //val = string.Compare(x.F1.InnerPath, y.F1.InnerPath, StringComparison.Ordinal); // same value: sort by name
             return val;
         }
 

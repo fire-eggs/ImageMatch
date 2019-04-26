@@ -1,9 +1,12 @@
-﻿using System;
+﻿using System.Runtime.InteropServices;
 
 namespace howto_image_hash
 {
     public class ScoreEntry
     {
+        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+        private static extern int StrCmpLogicalW(string psz1, string psz2);
+
         public int score;  // percent overlap: zip1 vs zip2
 
         public string zipfile1;
@@ -52,7 +55,8 @@ namespace howto_image_hash
         {
             int val = y.score - x.score;
             if (val == 0)
-                val = string.Compare(x.zipfile1, y.zipfile1, StringComparison.Ordinal); // same value: sort by name
+                val = StrCmpLogicalW(x.zipfile1, y.zipfile1); // use 'natural' sort
+                //val = string.Compare(x.zipfile1, y.zipfile1, StringComparison.Ordinal); // same value: sort by name
             return val;
         }
 
