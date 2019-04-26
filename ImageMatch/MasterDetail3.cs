@@ -124,6 +124,8 @@ namespace howto_image_hash
             listZipPairs.SelectedIndex = -1;
             if (viewlist.Count > 0)
                 listZipPairs.SelectedIndex = 0;
+            else
+                MessageBox.Show("No zip file matches found");
         }
 
         public override void updateProgress(int value)
@@ -134,6 +136,11 @@ namespace howto_image_hash
         public override void SetNote(string text)
         {
             txtNote.Text = text;
+        }
+
+        public override void SetStatus(string text)
+        {
+            lblStatus.Text = text;
         }
 
         private void BtnDiff_Click(object sender, EventArgs e)

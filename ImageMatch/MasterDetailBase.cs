@@ -183,6 +183,8 @@ namespace howto_image_hash
 
         internal void loadHashFile(string path)
         {
+            _log.log(string.Format("Loading {0}", path));
+
             _pathmemory = path;
 
             //var toload1 = Path.Combine(path, "htih.txt");
@@ -226,7 +228,7 @@ namespace howto_image_hash
                 }
             }
 
-            _log.log(string.Format("to compare - Zips:{0} Files:{1}", _zipDict.Keys.Count, _toCompare.Count));
+            _log.log(string.Format(" to compare - Zips:{0} Files:{1}", _zipDict.Keys.Count, _toCompare.Count));
 
             //CompareAsync();
             CompareVPTree();
@@ -238,6 +240,8 @@ namespace howto_image_hash
             int zipCount = ziplist.Length;
             if (zipCount < 1)
                 return;
+
+            SetStatus(string.Format("Hashes: {0} Archives: {1}", _hashSource, zipCount));
 
             _scores = new HashSet<ScoreEntry>(); // use a set so that AxB and BxA are not duplicated
 
@@ -378,6 +382,8 @@ namespace howto_image_hash
 
             // Turn pairset into _scores
             var pairlist = pairset.ToList();
+            _log.log(string.Format(" pair candidates:{0}", pairlist.Count));
+
             int matches = 0;
             HashZipEntry he = pairlist[0].F1;
             HashZipEntry he2 = pairlist[0].F2;
@@ -410,6 +416,8 @@ namespace howto_image_hash
 
             updateProgress(0);
             _scoreList = _scores.ToList();
+            _log.log(string.Format(" zip matches:{0}", _scoreList.Count));
+
             _scores = null;
 
             _scoreList.Sort(ScoreEntry.Comparer);
@@ -580,8 +588,11 @@ namespace howto_image_hash
 
         internal void Reset()
         {
+            _hashSource = 0;
             _toCompare = new List<HashZipEntry>();
             _zipDict = new ConcurrentDictionary<string, ConcurrentBag<HashZipEntry>>();
+
+            SetStatus(string.Format("Hashes: {0} Archives: {1}", _hashSource, 0));
         }
 
         internal List<ScoreEntry> FilterMatchingTree()
@@ -703,5 +714,7 @@ namespace howto_image_hash
         public virtual void LoadZipList() { throw new Exception(); }
 
         public virtual void SetNote(string text) { throw new Exception(); }
+
+        public virtual void SetStatus(string text) { throw new Exception(); }
     }
 }

@@ -36,6 +36,7 @@
             this.btnClear = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
             this.btnReport = new System.Windows.Forms.Button();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.listZipPairs = new System.Windows.Forms.ListBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -97,6 +98,7 @@
             this.flowLayoutPanel1.Controls.Add(this.btnClear);
             this.flowLayoutPanel1.Controls.Add(this.btnFilter);
             this.flowLayoutPanel1.Controls.Add(this.btnReport);
+            this.flowLayoutPanel1.Controls.Add(this.lblStatus);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -159,6 +161,15 @@
             this.btnReport.Text = "Report";
             this.btnReport.UseVisualStyleBackColor = true;
             this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Location = new System.Drawing.Point(608, 8);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(0, 13);
+            this.lblStatus.TabIndex = 6;
             // 
             // listZipPairs
             // 
@@ -374,5 +385,6 @@
         private System.Windows.Forms.Button btnDelLeft;
         private System.Windows.Forms.Button btnDelRight;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblStatus;
     }
 }
