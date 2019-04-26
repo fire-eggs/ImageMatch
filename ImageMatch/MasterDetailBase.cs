@@ -14,9 +14,12 @@ namespace howto_image_hash
 {
     public class MasterDetailBase : Form
     {
+        private const int MAX_SCORE = 16;  // threshold for distance between 2 files to count as a 'match'
+        private const int MAX_SCORE2 = 20; // not quite sure what this is?
+
         private Logger _log;
         private ArchiveLoader _loader;
-        private int _hashSource;
+        private int _hashSource; // track distinct hashfiles
         private List<HashZipEntry> _toCompare = new List<HashZipEntry>();
         private ConcurrentDictionary<string, ConcurrentBag<HashZipEntry>> _zipDict = new ConcurrentDictionary<string, ConcurrentBag<HashZipEntry>>();
         private bool _filterSameTree;
@@ -29,7 +32,6 @@ namespace howto_image_hash
         private List<string> _hideRight = new List<string>();
         private List<string> _toCleanup = new List<string>();
         private ShowDiff _diffDlg;
-
 
         [Obsolete("Designer only", true)]
         public MasterDetailBase()
@@ -130,8 +132,8 @@ namespace howto_image_hash
 
                     var ascore = CalcScoreP(hze1, hze2);
 
-                    // TODO would a VP-tree be a better solution? [create a VPtree for ziplist1 and ziplist2 ONLY]
-                    if (ascore < 22 && ascore < bestscore)
+                    // TODO would a VP-tree be a faster solution? [create a VPtree for ziplist1 and ziplist2 ONLY]
+                    if (ascore < MAX_SCORE2 && ascore < bestscore)
                     {
                         bestmatch = new ScoreEntry2();
                         bestmatch.F1 = hze1;
@@ -269,8 +271,8 @@ namespace howto_image_hash
                             continue;
                         if (aret.ZipFile == afile.ZipFile) // skip self-zip matches
                             continue;
-                        int dist = CalcScoreP(afile, aret);
-                        if (dist > 16)
+                        int dist = CalcScoreP(afile, aret); // reduce 'noise' by tossing too-distant matches
+                        if (dist > MAX_SCORE)
                             continue;
 
                         ScoreEntry2 se2 = new ScoreEntry2();
@@ -433,7 +435,7 @@ namespace howto_image_hash
             var foo = MakeDetailList(zip1.ToList(), zip2.ToList());
             int brutematches = 0;
             foreach (var bar in foo)
-                if (bar.score < 16)
+                if (bar.score < MAX_SCORE)
                     brutematches++;
 
             int score1 = (int)(((double)matches / zip1.Count) * 100.0);
@@ -571,7 +573,7 @@ namespace howto_image_hash
                     var hze2 = ziplist2[dex2];
 
                     var ascore = CalcScoreP(hze1, hze2);
-                    if (ascore < 16)
+                    if (ascore < MAX_SCORE)
                     {
                         match = true;
                         break; // found a match, don't need to keep testing

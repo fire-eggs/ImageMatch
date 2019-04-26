@@ -46,12 +46,12 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnHideL = new System.Windows.Forms.Button();
             this.btnHideR = new System.Windows.Forms.Button();
-            this.txtNote = new System.Windows.Forms.TextBox();
-            this.btnDiff = new System.Windows.Forms.Button();
-            this.btnShow = new System.Windows.Forms.Button();
             this.btnDelLeft = new System.Windows.Forms.Button();
             this.btnDelRight = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.txtNote = new System.Windows.Forms.TextBox();
+            this.btnDiff = new System.Windows.Forms.Button();
+            this.btnShow = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -279,6 +279,35 @@
             this.btnHideR.UseVisualStyleBackColor = true;
             this.btnHideR.Click += new System.EventHandler(this.btnHideR_Click);
             // 
+            // btnDelLeft
+            // 
+            this.btnDelLeft.Location = new System.Drawing.Point(165, 3);
+            this.btnDelLeft.Name = "btnDelLeft";
+            this.btnDelLeft.Size = new System.Drawing.Size(75, 23);
+            this.btnDelLeft.TabIndex = 10;
+            this.btnDelLeft.Text = "Del. Left";
+            this.btnDelLeft.UseVisualStyleBackColor = true;
+            this.btnDelLeft.Click += new System.EventHandler(this.BtnDelLeft_Click);
+            // 
+            // btnDelRight
+            // 
+            this.btnDelRight.Location = new System.Drawing.Point(246, 3);
+            this.btnDelRight.Name = "btnDelRight";
+            this.btnDelRight.Size = new System.Drawing.Size(75, 23);
+            this.btnDelRight.TabIndex = 11;
+            this.btnDelRight.Text = "Del. Right";
+            this.btnDelRight.UseVisualStyleBackColor = true;
+            this.btnDelRight.Click += new System.EventHandler(this.BtnDelRight_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(33, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Note:";
+            // 
             // txtNote
             // 
             this.txtNote.Location = new System.Drawing.Point(42, 32);
@@ -309,35 +338,6 @@
             this.btnShow.Text = "Show";
             this.btnShow.UseVisualStyleBackColor = true;
             this.btnShow.Click += new System.EventHandler(this.BtnShow_Click);
-            // 
-            // btnDelLeft
-            // 
-            this.btnDelLeft.Location = new System.Drawing.Point(165, 3);
-            this.btnDelLeft.Name = "btnDelLeft";
-            this.btnDelLeft.Size = new System.Drawing.Size(75, 23);
-            this.btnDelLeft.TabIndex = 10;
-            this.btnDelLeft.Text = "Del. Left";
-            this.btnDelLeft.UseVisualStyleBackColor = true;
-            this.btnDelLeft.Click += new System.EventHandler(this.BtnDelLeft_Click);
-            // 
-            // btnDelRight
-            // 
-            this.btnDelRight.Location = new System.Drawing.Point(246, 3);
-            this.btnDelRight.Name = "btnDelRight";
-            this.btnDelRight.Size = new System.Drawing.Size(75, 23);
-            this.btnDelRight.TabIndex = 11;
-            this.btnDelRight.Text = "Del. Right";
-            this.btnDelRight.UseVisualStyleBackColor = true;
-            this.btnDelRight.Click += new System.EventHandler(this.BtnDelRight_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 29);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 13);
-            this.label3.TabIndex = 12;
-            this.label3.Text = "Note:";
             // 
             // MasterDetail3
             // 

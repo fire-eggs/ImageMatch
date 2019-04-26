@@ -19,7 +19,7 @@ namespace howto_image_hash
             ToolStripDropDownMenu tsm = new ToolStripDropDownMenu();
             splitButton1.SplitMenuStrip = tsm;
 
-            _mru = new DrawAnce.MruStripMenu(tsm, onMru, 5);
+            _mru = new DrawAnce.MruStripMenu(tsm, onMru, 7);
 
             LoadSettings(); // NOTE: _must_ go after _mru creation
 
