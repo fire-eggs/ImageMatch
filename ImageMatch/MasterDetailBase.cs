@@ -405,6 +405,9 @@ namespace howto_image_hash
                 }
             }
 
+            // 20190426 the last entry was not processed as a possible candidate
+            MakeScore(matches, he, he2);
+
             updateProgress(0);
             _scoreList = _scores.ToList();
             _scores = null;
