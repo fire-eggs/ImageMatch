@@ -101,7 +101,7 @@ namespace howto_image_hash
             }
             catch (Exception ex)
             {
-                _logger.log(ex);
+                //_logger.log(ex);
             }
             return string.Empty;
         }
