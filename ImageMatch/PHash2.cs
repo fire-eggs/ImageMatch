@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace howto_image_hash
 {
     class PHash2
     {
-        private float [][] _dctMatrix;
-        private float [][] _dctTransp;
+        private readonly float [][] _dctMatrix;
+        private readonly float [][] _dctTransp;
 
         public PHash2()
         {
@@ -19,16 +21,9 @@ namespace howto_image_hash
 
         public ulong CalculateDctHash(string path)
         {
-            var fpixels = transformImageF(path, 32, 32);
+            var fpixels = transformImageF(path); //, 32, 32);
             if (fpixels == null)
                 return 0;
-
-            //// Copy pixel data and convert to float
-            //var fPixels = new float[1024];
-            //for (var i = 0; i < 1024; i++)
-            //{
-            //    fPixels[i] = pixels[i] / 255.0f;
-            //}
 
             // Calculate dct
             var dctPixels = ComputeDct(fpixels);
@@ -67,7 +62,6 @@ namespace howto_image_hash
         /// Compute DCT for the image.
         /// </summary>
         /// <param name="image">Image to calculate the dct.</param>
-        /// <param name="dctMatrix">DCT coefficient matrix</param>
         /// <returns>DCT transform of the image</returns>
         private float[][] ComputeDct(float[] image)
         {
@@ -163,52 +157,80 @@ namespace howto_image_hash
             return transpose;
         }
 
-        private int[] transformImage(string path, int x, int y)
-        {
-            using (var bm = Bitmap.FromFile(path))
-            using (Bitmap outBm = new Bitmap(32, 32, PixelFormat.Format24bppRgb))
-            { 
-                outBm.SetResolution(bm.HorizontalResolution, bm.VerticalResolution);
-                using (Graphics g = Graphics.FromImage(outBm))
-                {
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(bm, new Rectangle(0, 0, 32, 32), new Rectangle(0, 0, bm.Width, bm.Height), GraphicsUnit.Pixel);
-                }
+        //private int[] transformImage(string path, int x, int y)
+        //{
+        //    using (var bm = Bitmap.FromFile(path))
+        //    using (Bitmap outBm = new Bitmap(32, 32, PixelFormat.Format24bppRgb))
+        //    { 
+        //        outBm.SetResolution(bm.HorizontalResolution, bm.VerticalResolution);
+        //        using (Graphics g = Graphics.FromImage(outBm))
+        //        {
+        //            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        //            g.DrawImage(bm, new Rectangle(0, 0, 32, 32), new Rectangle(0, 0, bm.Width, bm.Height), GraphicsUnit.Pixel);
+        //        }
 
-                int[] output = new int[32 * 32];
-                int dex = 0;
-                for (int i = 0; i < 32; i++)
-                    for (int j = 0; j < 32; j++)
-                    {
-                        Color clr = outBm.GetPixel(j, i);
-                        output[dex++] = (int)(clr.R * 0.3 + clr.G * 0.59 + clr.B * 0.11);
-                    }
-                return output;
+        //        int[] output = new int[32 * 32];
+        //        int dex = 0;
+        //        for (int i = 0; i < 32; i++)
+        //            for (int j = 0; j < 32; j++)
+        //            {
+        //                Color clr = outBm.GetPixel(j, i);
+        //                output[dex++] = (int)(clr.R * 0.3 + clr.G * 0.59 + clr.B * 0.11);
+        //            }
+        //        return output;
+        //    }
+        //}
+
+        private Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
+        {
+            using (MemoryStream outStream = new MemoryStream())
+            {
+                BitmapEncoder enc = new PngBitmapEncoder();
+                try
+                {
+                    enc.Frames.Add(BitmapFrame.Create(bitmapImage));
+                }
+                catch (NotSupportedException e)
+                {
+                }
+                enc.Save(outStream);
+                Bitmap bitmap = new Bitmap(outStream);
+                return bitmap;
+                //// TODO can I just return this bitmap?
+                //return new Bitmap(bitmap);
             }
         }
 
-        private float[] transformImageF(string path, int x, int y)
+        //private Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
+        //{
+        //    var bmf = BitmapFrame.Create(bitmapImage);
+        //    BitmapEncoder enc = new PngBitmapEncoder();
+        //    enc.Frames.Add(bmf);
+        //    return new Bitmap(enc.StreamSource);
+        //}
+
+        private float[] transformImageF(string path)
         {
             try
             {
-                using (var bm = Bitmap.FromFile(path))
-                using (Bitmap outBm = new Bitmap(32, 32, PixelFormat.Format24bppRgb))
-                {
-                    outBm.SetResolution(bm.HorizontalResolution, bm.VerticalResolution);
-                    using (Graphics g = Graphics.FromImage(outBm))
-                    {
-                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        g.DrawImage(bm, new Rectangle(0, 0, 32, 32), new Rectangle(0, 0, bm.Width, bm.Height), GraphicsUnit.Pixel);
-                    }
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri(path);
+                bi.DecodePixelHeight = 32;
+                bi.DecodePixelWidth = 32;
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.EndInit();
 
+                using (Bitmap shrunk_bm = BitmapImage2Bitmap(bi))
+                {
                     float[] output = new float[32 * 32];
                     int dex = 0;
                     for (int i = 0; i < 32; i++)
-                        for (int j = 0; j < 32; j++)
-                        {
-                            Color clr = outBm.GetPixel(j, i);
-                            output[dex++] = (clr.R * 0.3f + clr.G * 0.59f + clr.B * 0.11f) / 255.0f;
-                        }
+                    for (int j = 0; j < 32; j++)
+                    {
+                        Color clr = shrunk_bm.GetPixel(j, i);
+                        output[dex++] = (clr.R * 0.3f + clr.G * 0.59f + clr.B * 0.11f) / 255.0f;
+                    }
                     return output;
                 }
             }

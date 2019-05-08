@@ -79,8 +79,6 @@ namespace howto_image_hash
             //_diffDlg.ShowDialog();
         }
 
-        private ShowDiff _diffDlg;
-
         private void button1_Click(object sender, EventArgs e)
         {
             DoShowDiff(false);
