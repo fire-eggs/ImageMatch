@@ -33,8 +33,6 @@ namespace howto_image_hash
             this.ofdImage = new System.Windows.Forms.OpenFileDialog();
             this.btnFolder = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -63,34 +61,10 @@ namespace howto_image_hash
             this.progressBar1.Size = new System.Drawing.Size(267, 28);
             this.progressBar1.TabIndex = 12;
             // 
-            // button1
-            // 
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button1.Location = new System.Drawing.Point(8, 103);
-            this.button1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(145, 28);
-            this.button1.TabIndex = 13;
-            this.button1.Text = "Load Zip Hash";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnLoadHash_click);
-            // 
-            // button2
-            // 
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button2.Location = new System.Drawing.Point(161, 103);
-            this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(143, 28);
-            this.button2.TabIndex = 14;
-            this.button2.Text = "Load Zip Hash2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click_1);
-            // 
             // button3
             // 
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button3.Location = new System.Drawing.Point(313, 103);
+            this.button3.Location = new System.Drawing.Point(14, 105);
             this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(141, 28);
@@ -105,8 +79,6 @@ namespace howto_image_hash
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(506, 146);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.btnFolder);
             this.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -121,8 +93,6 @@ namespace howto_image_hash
         private System.Windows.Forms.OpenFileDialog ofdImage;
         private System.Windows.Forms.Button btnFolder;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
     }
 }
