@@ -79,6 +79,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Hasher.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MasterDetail.cs">
       <SubType>Form</SubType>

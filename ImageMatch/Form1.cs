@@ -449,7 +449,13 @@ namespace howto_image_hash
                 return;
             var path = fbd.SelectedPath;
             _path = path;
-            HashEm();
+            Hashish();
+        }
+
+        private void Hashish()
+        {
+            Hasher ahash = new Hasher(_log, progressBar1);
+            ahash.HashEm(_path);
         }
 
         private void HashEm()

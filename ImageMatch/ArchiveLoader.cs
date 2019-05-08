@@ -40,6 +40,19 @@ namespace howto_image_hash
 
         private List<string> _toCleanUp = new List<string>();
 
+        public int GetFileCount(string archive)
+        {
+            try
+            {
+                var extractor = new SevenZipExtractor(archive);
+                return (int)extractor.FilesCount;
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
+        }
+
         public void Process(string archive, ArchiveFileCallback callback)
         {
             try
