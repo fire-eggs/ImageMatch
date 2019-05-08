@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
+using FreeImageAPI;
+
 namespace howto_image_hash
 {
     class PHash2
@@ -191,24 +193,31 @@ namespace howto_image_hash
         {
             try
             {
-                using (var bm = Bitmap.FromFile(path))
+                FIBITMAP dib = FreeImage.LoadEx(path);
+                if (dib.IsNull)
+                    return null;
+
+                using (var bm = FreeImage.GetBitmap(dib))
+                    //using (var bm = Bitmap.FromFile(path))
                 using (Bitmap outBm = new Bitmap(32, 32, PixelFormat.Format24bppRgb))
                 {
                     outBm.SetResolution(bm.HorizontalResolution, bm.VerticalResolution);
                     using (Graphics g = Graphics.FromImage(outBm))
                     {
                         g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        g.DrawImage(bm, new Rectangle(0, 0, 32, 32), new Rectangle(0, 0, bm.Width, bm.Height), GraphicsUnit.Pixel);
+                        g.DrawImage(bm, new Rectangle(0, 0, 32, 32), new Rectangle(0, 0, bm.Width, bm.Height),
+                            GraphicsUnit.Pixel);
                     }
 
                     float[] output = new float[32 * 32];
                     int dex = 0;
                     for (int i = 0; i < 32; i++)
-                        for (int j = 0; j < 32; j++)
-                        {
-                            Color clr = outBm.GetPixel(j, i);
-                            output[dex++] = (clr.R * 0.3f + clr.G * 0.59f + clr.B * 0.11f) / 255.0f;
-                        }
+                    for (int j = 0; j < 32; j++)
+                    {
+                        Color clr = outBm.GetPixel(j, i);
+                        output[dex++] = (clr.R * 0.3f + clr.G * 0.59f + clr.B * 0.11f) / 255.0f;
+                    }
+                    FreeImage.UnloadEx(ref dib);
                     return output;
                 }
             }
