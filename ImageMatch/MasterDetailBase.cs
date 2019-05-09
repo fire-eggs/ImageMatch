@@ -386,35 +386,39 @@ namespace howto_image_hash
             var pairlist = pairset.ToList();
             _log.log(string.Format(" pair candidates:{0}", pairlist.Count));
 
-            int matches = 0;
-            HashZipEntry he = pairlist[0].F1;
-            HashZipEntry he2 = pairlist[0].F2;
-            foreach (var apair in pairlist)
+            if (pairlist.Count != 0)
             {
-                if (apair.F1.ZipFile == he.ZipFile)
+
+                int matches = 0;
+                HashZipEntry he = pairlist[0].F1;
+                HashZipEntry he2 = pairlist[0].F2;
+                foreach (var apair in pairlist)
                 {
-                    if (apair.F2.ZipFile == he2.ZipFile)
+                    if (apair.F1.ZipFile == he.ZipFile)
                     {
-                        matches++;
+                        if (apair.F2.ZipFile == he2.ZipFile)
+                        {
+                            matches++;
+                        }
+                        else
+                        {
+                            MakeScore(matches, he, he2);
+                            he2 = apair.F2;
+                            matches = 1;
+                        }
                     }
                     else
                     {
                         MakeScore(matches, he, he2);
+                        he = apair.F1;
                         he2 = apair.F2;
                         matches = 1;
                     }
                 }
-                else
-                {
-                    MakeScore(matches, he, he2);
-                    he = apair.F1;
-                    he2 = apair.F2;
-                    matches = 1;
-                }
-            }
 
-            // 20190426 the last entry was not processed as a possible candidate
-            MakeScore(matches, he, he2);
+                // 20190426 the last entry was not processed as a possible candidate
+                MakeScore(matches, he, he2);
+            }
 
             updateProgress(0);
             _scoreList = _scores.ToList();
