@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
 
@@ -157,62 +155,29 @@ namespace howto_image_hash
             return transpose;
         }
 
-        //private int[] transformImage(string path, int x, int y)
-        //{
-        //    using (var bm = Bitmap.FromFile(path))
-        //    using (Bitmap outBm = new Bitmap(32, 32, PixelFormat.Format24bppRgb))
-        //    { 
-        //        outBm.SetResolution(bm.HorizontalResolution, bm.VerticalResolution);
-        //        using (Graphics g = Graphics.FromImage(outBm))
-        //        {
-        //            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-        //            g.DrawImage(bm, new Rectangle(0, 0, 32, 32), new Rectangle(0, 0, bm.Width, bm.Height), GraphicsUnit.Pixel);
-        //        }
-
-        //        int[] output = new int[32 * 32];
-        //        int dex = 0;
-        //        for (int i = 0; i < 32; i++)
-        //            for (int j = 0; j < 32; j++)
-        //            {
-        //                Color clr = outBm.GetPixel(j, i);
-        //                output[dex++] = (int)(clr.R * 0.3 + clr.G * 0.59 + clr.B * 0.11);
-        //            }
-        //        return output;
-        //    }
-        //}
-
+        // Convert a WIC BitmapImage to a GDI+ bitmap
         private Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
         {
             using (MemoryStream outStream = new MemoryStream())
             {
-                BitmapEncoder enc = new PngBitmapEncoder();
+                BitmapEncoder enc = new BmpBitmapEncoder();
                 try
                 {
                     enc.Frames.Add(BitmapFrame.Create(bitmapImage));
                 }
-                catch (NotSupportedException e)
+                catch (NotSupportedException) // apparently this is thrown deliberately but uselessly
                 {
                 }
                 enc.Save(outStream);
-                Bitmap bitmap = new Bitmap(outStream);
-                return bitmap;
-                //// TODO can I just return this bitmap?
-                //return new Bitmap(bitmap);
+                return new Bitmap(outStream);
             }
         }
-
-        //private Bitmap BitmapImage2Bitmap(BitmapImage bitmapImage)
-        //{
-        //    var bmf = BitmapFrame.Create(bitmapImage);
-        //    BitmapEncoder enc = new PngBitmapEncoder();
-        //    enc.Frames.Add(bmf);
-        //    return new Bitmap(enc.StreamSource);
-        //}
 
         private float[] transformImageF(string path)
         {
             try
             {
+                // load with WIC
                 BitmapImage bi = new BitmapImage();
                 bi.BeginInit();
                 bi.UriSource = new Uri(path);
@@ -221,14 +186,18 @@ namespace howto_image_hash
                 bi.CacheOption = BitmapCacheOption.OnLoad;
                 bi.EndInit();
 
-                using (Bitmap shrunk_bm = BitmapImage2Bitmap(bi))
+                // TODO try accessing the WIC pixels without the conversion
+                // TODO try using WIC convert to greyscale?
+
+                // return the 32x32 image as an array of greyscale float values
+                using (Bitmap shrunkBm = BitmapImage2Bitmap(bi))
                 {
                     float[] output = new float[32 * 32];
                     int dex = 0;
                     for (int i = 0; i < 32; i++)
                     for (int j = 0; j < 32; j++)
                     {
-                        Color clr = shrunk_bm.GetPixel(j, i);
+                        Color clr = shrunkBm.GetPixel(j, i);
                         output[dex++] = (clr.R * 0.3f + clr.G * 0.59f + clr.B * 0.11f) / 255.0f;
                     }
                     return output;

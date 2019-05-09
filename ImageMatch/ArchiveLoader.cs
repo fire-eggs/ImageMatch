@@ -47,8 +47,9 @@ namespace howto_image_hash
                 var extractor = new SevenZipExtractor(archive);
                 return (int)extractor.FilesCount;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                _logger.log(ex.Message + "|" + archive);
                 return 0;
             }
         }

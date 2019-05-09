@@ -4,33 +4,35 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+/*
+ * High level hashing process. Extract files from archives,
+ * hash them, write to storage.
+ */
 
 namespace howto_image_hash
 {
     public class Hasher
     {
-        private Logger _log;
-        private ProgressBar _progressbar;
+        private readonly Logger _log;
+        private readonly ProgressBar _progressbar;
         TaskScheduler _guiContext;
         int _totCount;
         int _doneCount;
         private string _path;
         private ConcurrentBag<Form1.HashZipEntry> _hashedZ;
-        private BackgroundWorker worker;
+        private BackgroundWorker _worker;
         private string[] _allFiles;
-        private ArchiveLoader _zipload;
-        private PHash2 _hasher;
+        private readonly ArchiveLoader _zipload;
+        private readonly PHash2 _hasher;
         private int _totCount2;
 
         public Hasher(Logger log, ProgressBar progressBar)
         {
             _log = log;
             _progressbar = progressBar; // TODO callback?
-//            _zipload = zipload;
-
             _zipload = new ArchiveLoader(_log);
             _hasher = new PHash2();
         }
@@ -46,20 +48,21 @@ namespace howto_image_hash
                 return;
 
             _totCount2 = 0;
-            _log.log("Archive Count:" + _totCount.ToString());
+            _log.log("File Count:" + _totCount);
 
-            if (worker == null)
+            // TODO is a background worker useful?
+            if (_worker == null)
             {
-                worker = new BackgroundWorker();
-                worker.DoWork += phashZip_doWork;
-                worker.ProgressChanged += phashZip_ProgressChanged;
-                worker.WorkerReportsProgress = true;
-                worker.RunWorkerCompleted += phashZip_RunWorkerCompleted;
+                _worker = new BackgroundWorker();
+                _worker.DoWork += phashZip_doWork;
+                _worker.ProgressChanged += phashZip_ProgressChanged;
+                _worker.WorkerReportsProgress = true;
+                _worker.RunWorkerCompleted += phashZip_RunWorkerCompleted;
             }
             _progressbar.Value = 0;
             _hashedZ = new ConcurrentBag<Form1.HashZipEntry>();
             _guiContext = TaskScheduler.FromCurrentSynchronizationContext();
-            worker.RunWorkerAsync();
+            _worker.RunWorkerAsync();
         }
 
         private static string[] GetAllFiles(string path)
@@ -90,7 +93,7 @@ namespace howto_image_hash
             _log.logTimer("hashPIX_TZ_rwc");
         }
 
-        private System.Threading.CancellationToken token = Task.Factory.CancellationToken;
+        private readonly System.Threading.CancellationToken token = Task.Factory.CancellationToken;
 
         private void phashZip_doWork(object sender, DoWorkEventArgs e)
         {
@@ -104,8 +107,6 @@ namespace howto_image_hash
                     continue;
                 _totCount2 += fc;
                 _allTasks.Add(Task.Factory.StartNew(() => _zipload.Process(oneFI, do_hashZ)));
-                //    .ContinueWith(delegate { OneThreadDone(); }, token, TaskContinuationOptions.None, _guiContext));
-                //Task.Factory.StartNew(() => OneThreadDone(), token, TaskCreationOptions.None, _guiContext); // TODO consider switching to ContinueWith
             }
 
             var allTasks2 = _allTasks.ToArray();
@@ -118,6 +119,8 @@ namespace howto_image_hash
             allTasks2 = null;
 
             _zipload.Cleanup();
+
+            _log.log("Inner File Count:" + _totCount2);
         }
 
         private void OneThreadDone()

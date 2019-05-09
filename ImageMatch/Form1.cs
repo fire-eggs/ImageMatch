@@ -24,13 +24,12 @@ namespace howto_image_hash
         {
             _log = new Logger();
             _zipload = new ArchiveLoader(_log);
-            _hasher = new PHash2();
 
             if (!string.IsNullOrEmpty(autopath))
             {
                 progressBar1 = new ProgressBar();
                 _path = autopath;
-                HashEm();
+                Hashish();
                 Close();
             }
 
@@ -227,72 +226,7 @@ namespace howto_image_hash
             public int    source; // to filter by hashfile (CompareForm)
         }
 
-        private ConcurrentBag<HashZipEntry> _hashedZ;
-
-        private string[] _allFiles;
-        private void GetAllFiles(string path)
-        {
-            // https://docs.microsoft.com/en-us/dotnet/standard/parallel-programming/how-to-iterate-file-directories-with-plinq
-            var allfiles = from dir in Directory.EnumerateFiles(path, "*.*", SearchOption.AllDirectories)
-                           .AsParallel()
-                            select dir;
-            _allFiles = allfiles.ToArray();
-        }
-
-        void phashZip_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            progressBar1.Value = e.ProgressPercentage;
-        }
-
-        void phashZip_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            using (var outFile = new StreamWriter(Path.Combine(_path, "htih_pz.txt")))
-            {
-                foreach (var he in _hashedZ.ToList())
-                {
-                    outFile.WriteLine("{0}|{1}|{2}", he.ZipFile, he.InnerPath, he.phash);
-                }
-            }
-            progressBar1.Value = 0;
-
-            _log.logTimer("hashPIX_TZ_rwc");
-        }
-
-        TaskScheduler _guiContext;
-        int _totCount;
-        int _doneCount;
-
-        private void phashZip_doWork(object sender, DoWorkEventArgs e)
-        {
-            var token = Task.Factory.CancellationToken;
-            List<Task> _allTasks = new List<Task>();
-
-            _doneCount = 0;
-            foreach (var oneFI in _allFiles)
-            {
-                _allTasks.Add(Task.Factory.StartNew(() => _zipload.Process(oneFI.ToLowerInvariant(), do_hashZ)));
-                Task.Factory.StartNew(() => OneThreadDone(), token, TaskCreationOptions.None, _guiContext); // TODO consider switching to ContinueWith
-            }
-
-            var allTasks2 = _allTasks.ToArray();
-            _allTasks = null;
-            Task.WaitAll(allTasks2);
-            foreach (var task in allTasks2)
-            {
-                task.Dispose();
-            }
-            allTasks2 = null;
-
-            _zipload.Cleanup();
-        }
-
-        private void OneThreadDone()
-        {
-            _doneCount++;
-            //if (_doneCount % 10 == 0)
-                progressBar1.Value = (int)((double)_doneCount / _totCount * 100.0);
-        }
-
+        #region Difference Hash
         private void HashFilePixel(string file)
         {
 #if false
@@ -433,7 +367,35 @@ namespace howto_image_hash
             return res;
         }
 
-        private BackgroundWorker worker;
+        private ulong getRowHashLum(int[,] lums)
+        {
+            ulong hash = 0;
+            int bit = 63;
+            for (int r = 0; r < 8; r++)
+            for (int c = 0; c < 8; c++)
+            {
+                if (lums[c + 1, r] >= lums[c, r])
+                    hash |= 1UL << bit;
+                bit--;
+            }
+            return hash;
+        }
+
+        private ulong getColHashLum(int[,] lums)
+        {
+            ulong hash = 0;
+            int bit = 63;
+            for (int c = 0; c < 8; c++)
+            for (int r = 0; r < 8; r++)
+            {
+                if (lums[c, r + 1] >= lums[c, r])
+                    hash |= 1UL << bit;
+                bit--;
+            }
+            return hash;
+        }
+
+        #endregion
 
         private string _path;
 
@@ -458,93 +420,6 @@ namespace howto_image_hash
             ahash.HashEm(_path);
         }
 
-        private void HashEm()
-        {
-            _log.logTimer("hashEm", true);
-
-            GetAllFiles(_path);
-            _totCount = _allFiles.Length;
-            if (_totCount == 0)
-                return;
-
-            _log.log("FileCount:" + _totCount.ToString());
-
-            if (worker == null)
-            {
-                worker = new BackgroundWorker();
-                worker.DoWork += phashZip_doWork;
-                worker.ProgressChanged += phashZip_ProgressChanged;
-                worker.WorkerReportsProgress = true;
-                worker.RunWorkerCompleted += phashZip_RunWorkerCompleted;
-            }
-            progressBar1.Value = 0;
-            _hashedZ = new ConcurrentBag<HashZipEntry>();
-            _guiContext = TaskScheduler.FromCurrentSynchronizationContext();
-            worker.RunWorkerAsync();
-        }
-
-        private void btnLoadHash_click(object sender, EventArgs e)
-        {
-            //CompareForm cf = new CompareForm(_log,_zipload);
-            //cf.ShowDialog();
-            MasterDetail cf = new MasterDetail(_log, _zipload);
-            cf.ShowDialog();
-        }
-
-        private ulong getRowHashLum(int [,] lums)
-        {
-            ulong hash = 0;
-            int bit = 63;
-            for (int r = 0; r < 8; r++)
-                for (int c = 0; c < 8; c++)
-                {
-                    if (lums[c+1,r] >= lums[c,r])
-                        hash |= 1UL << bit;
-                    bit--;
-                }
-            return hash;
-        }
-
-        private ulong getColHashLum(int[,] lums)
-        {
-            ulong hash = 0;
-            int bit = 63;
-            for (int c = 0; c < 8; c++)
-                for (int r = 0; r < 8; r++)
-                {
-                    if (lums[c,r+1] >= lums[c,r])
-                        hash |= 1UL << bit;
-                    bit--;
-                }
-            return hash;
-        }
-
-        private PHash2 _hasher;
-
-        private void do_hashZ(string zipfile, string archivefilename, string outfilepath)
-        {
-            try
-            {
-                var phash = _hasher.CalculateDctHash(outfilepath);
-                HashZipEntry hze = new HashZipEntry();
-                hze.ZipFile = zipfile;
-                hze.InnerPath = archivefilename;
-                hze.phash = phash;
-                _hashedZ.Add(hze);
-            }
-            catch (Exception ex)
-            {
-                _log.log(string.Format("{0}-{1}-{2}", zipfile, archivefilename, outfilepath));
-                _log.log(ex);
-            }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //CompareForm cf = new CompareForm(true);
-            //cf.ShowDialog();
-        }
-
         private static Bitmap ConvertTo24(Bitmap bmpIn)
         {
             Bitmap converted = new Bitmap(bmpIn.Width, bmpIn.Height, PixelFormat.Format24bppRgb);
@@ -556,12 +431,6 @@ namespace howto_image_hash
                 g.DrawImageUnscaled(bmpIn, 0, 0);
             }
             return converted;
-        }
-
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            MasterDetail2 cf = new MasterDetail2(_log, _zipload);
-            _ = cf.ShowDialog();
         }
 
         private void button3_Click(object sender, EventArgs e)
