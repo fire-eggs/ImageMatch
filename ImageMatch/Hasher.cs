@@ -42,6 +42,8 @@ namespace howto_image_hash
             _path = path;
             _log.logTimer("hashEm", true);
 
+            LoadExistingHash();
+
             _allFiles = GetAllFiles(_path);
             _totCount = _allFiles.Length;
             if (_totCount == 0)
@@ -102,6 +104,10 @@ namespace howto_image_hash
             _doneCount = 0;
             foreach (var oneFI in _allFiles)
             {
+                if (DontUpdate(oneFI))
+                    continue;
+
+
                 int fc = _zipload.GetFileCount(oneFI);
                 if (fc < 1)
                     continue;
@@ -149,5 +155,71 @@ namespace howto_image_hash
             Task.Factory.StartNew(() => OneThreadDone(), token, TaskCreationOptions.None, _guiContext); // TODO consider switching to ContinueWith
         }
 
+        // dictionary of archives by path
+        private ConcurrentDictionary<string, ConcurrentBag<Form1.HashZipEntry>> _zipDict = new ConcurrentDictionary<string, ConcurrentBag<Form1.HashZipEntry>>();
+
+        private DateTime _lastHashTime = DateTime.MaxValue;
+
+        // TODO merge with MasterDetailBase
+        private void LoadExistingHash()
+        {
+            var toload2 = Path.Combine(_path, "htih_pz.txt");
+            if (!File.Exists(toload2))
+            {
+                return;
+            }
+
+            _lastHashTime = File.GetCreationTime(toload2);
+
+            using (var sr = new StreamReader(toload2))
+            {
+                while (sr.Peek() >= 0)
+                {
+                    var line = sr.ReadLine();
+                    if (string.IsNullOrWhiteSpace(line))
+                        continue;
+
+                    var parts = line.Split('|');
+                    var he = new Form1.HashZipEntry();
+                    he.ZipFile = parts[0];
+                    he.InnerPath = parts[1];
+                    he.phash = ulong.Parse(parts[2]);
+
+                    // Need a set of ZIPs to compare
+                    if (_zipDict.ContainsKey(he.ZipFile))
+                    {
+                        var filelist = _zipDict[he.ZipFile];
+                        filelist.Add(he);
+                    }
+                    else
+                    {
+                        var filelist = new ConcurrentBag<Form1.HashZipEntry>();
+                        filelist.Add(he);
+                        _zipDict[he.ZipFile] = filelist;
+                    }
+                }
+            }
+        }
+
+        // Don't need to hash an archive if it is already in
+        // the hashed history AND it is not newer than the
+        // previous hash time
+        private bool DontUpdate(string archivepath)
+        {
+            if (!_zipDict.ContainsKey(archivepath))
+                return false; // new archive
+
+            DateTime mod = File.GetLastWriteTime(archivepath);
+            if (mod > _lastHashTime)
+                return false; // archive has been modified
+
+            // keeping old hash data
+            foreach (var ahe in _zipDict[archivepath].ToArray())
+            {
+                _hashedZ.Add(ahe);
+            }
+
+            return true;
+        }
     }
 }
