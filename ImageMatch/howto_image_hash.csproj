@@ -81,18 +81,6 @@
     </Compile>
     <Compile Include="Hasher.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="MasterDetail.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterDetail.Designer.cs">
-      <DependentUpon>MasterDetail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MasterDetail2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MasterDetail2.Designer.cs">
-      <DependentUpon>MasterDetail2.cs</DependentUpon>
-    </Compile>
     <Compile Include="MasterDetail3.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,12 +118,6 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MasterDetail.resx">
-      <DependentUpon>MasterDetail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MasterDetail2.resx">
-      <DependentUpon>MasterDetail2.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MasterDetail3.resx">
       <DependentUpon>MasterDetail3.cs</DependentUpon>
     </EmbeddedResource>
@@ -162,6 +144,9 @@
   <ItemGroup>
     <Content Include="7z.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ok.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

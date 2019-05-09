@@ -156,7 +156,7 @@ namespace howto_image_hash
         }
 
         // dictionary of archives by path
-        private ConcurrentDictionary<string, ConcurrentBag<Form1.HashZipEntry>> _zipDict = new ConcurrentDictionary<string, ConcurrentBag<Form1.HashZipEntry>>();
+        private ConcurrentDictionary<string, ConcurrentBag<Form1.HashZipEntry>> _zipDict = new ConcurrentDictionary<string, ConcurrentBag<Form1.HashZipEntry>>(StringComparer.InvariantCultureIgnoreCase);
 
         private DateTime _lastHashTime = DateTime.MaxValue;
 

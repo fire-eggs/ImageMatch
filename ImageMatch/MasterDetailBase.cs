@@ -22,7 +22,7 @@ namespace howto_image_hash
         private int _hashSource; // track distinct hashfiles
         private List<HashZipEntry> _toCompare = new List<HashZipEntry>();
         private ConcurrentDictionary<string, ConcurrentBag<HashZipEntry>> _zipDict = new ConcurrentDictionary<string, ConcurrentBag<HashZipEntry>>();
-        private bool _filterSameTree;
+        protected bool _filterSameTree;
         private List<ScoreEntry> _viewList; // possibly filtered list
         BackgroundWorker _worker2;
         HashSet<ScoreEntry> _scores;
@@ -604,6 +604,9 @@ namespace howto_image_hash
         internal List<ScoreEntry> FilterMatchingTree()
         {
             _viewList = new List<ScoreEntry>();
+            if (_scoreList == null || _scoreList.Count == 0)
+                return _viewList;
+
             foreach (var entry in _scoreList)
             {
                 if (entry.sameSource && _filterSameTree)

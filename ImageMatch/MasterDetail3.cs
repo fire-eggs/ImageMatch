@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -64,9 +65,30 @@ namespace howto_image_hash
             Reset();
         }
 
+        private Image _filterImage;
+
         private void btnFilter_Click(object sender, EventArgs e)
         {
             ToggleFilter();
+
+            // Clear/show the icon indicating filter is enabled or not
+            if (_filterSameTree)
+            {
+                if (_filterImage == null)
+                {
+                    _filterImage = Image.FromFile(Path.Combine(Application.StartupPath, "ok.png"));
+                }
+
+                btnFilter.Image = _filterImage;
+                btnFilter.ImageAlign = ContentAlignment.MiddleLeft;
+                btnFilter.TextAlign = ContentAlignment.MiddleRight;
+            }
+            else
+            {
+                btnFilter.Image = null;
+                btnFilter.ImageAlign = ContentAlignment.MiddleLeft;
+                btnFilter.TextAlign = ContentAlignment.MiddleCenter;
+            }
         }
 
         private void btnReport_Click(object sender, EventArgs e)
