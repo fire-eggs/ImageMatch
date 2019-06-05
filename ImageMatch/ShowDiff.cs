@@ -71,7 +71,9 @@ namespace howto_image_hash
                 File.Delete(img1);
                 File.Delete(img2);
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception ex)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
             }
         }
@@ -99,7 +101,9 @@ namespace howto_image_hash
                         Image.FromStream(new MemoryStream(File.ReadAllBytes(img2))); // no image lock
                 }
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (Exception ex)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
             }
         }

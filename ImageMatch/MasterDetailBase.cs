@@ -722,7 +722,9 @@ namespace howto_image_hash
                 {
                     File.Delete(afile);
                 }
+#pragma warning disable CS0168 // Variable is declared but never used
                 catch (Exception ex)
+#pragma warning restore CS0168 // Variable is declared but never used
                 {
                     // TODO file still locked?
                 }
