@@ -69,6 +69,7 @@ namespace howto_image_hash
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
+            ClearForLoad();
             ToggleFilter();
 
             // Clear/show the icon indicating filter is enabled or not
@@ -98,19 +99,25 @@ namespace howto_image_hash
 
         private void listZipPairs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // user has selected a zip
+            // user has selected a pair of archive files
             if (_oldSel != null)
                 AddNote(_oldSel, txtNote.Text);  // "auto-update" note
 
             var sel = listZipPairs.SelectedItem as ScoreEntry;
+            if (sel == null)
+                return;
+
             var det = selectZipPair(sel);
             listFilePairs.DataSource = det;
+
+            lblPairStats.Text = fetchZipPairStats(sel);
 
             _oldSel = sel;
         }
 
         private void listFilePairs_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // user has selected a pair of image files
             var se = listFilePairs.SelectedItem as ScoreEntry2;
             btnDiff.Enabled = !(se == null || se.F1 == null || se.F2 == null);
             setPix(se, true, pictureBox1, label1);
@@ -136,6 +143,7 @@ namespace howto_image_hash
             label1.Text = "";
             label2.Text = "";
             txtNote.Text = "";
+            lblPairStats.Text = "";
         }
 
         public override void LoadZipList()
@@ -200,6 +208,26 @@ namespace howto_image_hash
             }
             catch { }
         }
+
+        private string fetchZipPairStats(ScoreEntry sel)
+        {
+            // fetch information about the pair of archive files
+            // either or both might not exist!
+            string result = "Archive sizes:";
+            if (File.Exists(sel.zipfile1))
+            {
+                var fi = new FileInfo(sel.zipfile1);
+                result += string.Format("[{0}]", SizeSuffix(fi.Length));
+            }
+            if (File.Exists(sel.zipfile2))
+            {
+                var fi = new FileInfo(sel.zipfile2);
+                result += string.Format("[{0}]", SizeSuffix(fi.Length));
+            }
+
+            return result;
+        }
+
 
         #region Settings
         private DASettings _mysettings;

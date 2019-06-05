@@ -96,9 +96,28 @@ namespace howto_image_hash
             }
         }
 
+        static readonly string[] SizeSuffixes =
+                          { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+
+        static internal string SizeSuffix(Int64 value, int decimalPlaces = 2)
+        {
+            if (value < 0) { return "-" + SizeSuffix(-value); }
+
+            int i = 0;
+            decimal dValue = value;
+            while (Math.Round(dValue, decimalPlaces) >= 1000)
+            {
+                dValue /= 1024;
+                i++;
+            }
+
+            return string.Format("{0:n" + decimalPlaces + "} {1}", dValue, SizeSuffixes[i]);
+        }
+
+
         internal List<ScoreEntry2> selectZipPair(ScoreEntry sel)
         {
-            if (sel == null)
+            if (sel == null || _zipDict.Count < 1)
                 return null;
 
             SetNote(sel.Note);
@@ -597,6 +616,8 @@ namespace howto_image_hash
             _hashSource = 0;
             _toCompare = new List<HashZipEntry>();
             _zipDict = new ConcurrentDictionary<string, ConcurrentBag<HashZipEntry>>();
+            _viewList = new List<ScoreEntry>();
+            _scoreList = null;
 
             SetStatus(string.Format("Hashes: {0} Archives: {1}", _hashSource, 0));
         }

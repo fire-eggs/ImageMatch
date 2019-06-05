@@ -47,11 +47,12 @@
             this.btnHideR = new System.Windows.Forms.Button();
             this.btnDelLeft = new System.Windows.Forms.Button();
             this.btnDelRight = new System.Windows.Forms.Button();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.txtNote = new System.Windows.Forms.TextBox();
             this.btnDiff = new System.Windows.Forms.Button();
             this.btnShow = new System.Windows.Forms.Button();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblPairStats = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -77,6 +78,7 @@
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnDiff, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnShow, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.lblPairStats, 0, 4);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -288,6 +290,17 @@
             this.btnDelRight.UseVisualStyleBackColor = true;
             this.btnDelRight.Click += new System.EventHandler(this.BtnDelRight_Click);
             // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.AutoSize = true;
+            this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.flowLayoutPanel3.Controls.Add(this.label3);
+            this.flowLayoutPanel3.Controls.Add(this.txtNote);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 32);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(245, 26);
+            this.flowLayoutPanel3.TabIndex = 13;
+            // 
             // label3
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -329,16 +342,14 @@
             this.btnShow.UseVisualStyleBackColor = true;
             this.btnShow.Click += new System.EventHandler(this.BtnShow_Click);
             // 
-            // flowLayoutPanel3
+            // lblPairStats
             // 
-            this.flowLayoutPanel3.AutoSize = true;
-            this.flowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel3.Controls.Add(this.label3);
-            this.flowLayoutPanel3.Controls.Add(this.txtNote);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 32);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(245, 26);
-            this.flowLayoutPanel3.TabIndex = 13;
+            this.lblPairStats.AutoSize = true;
+            this.lblPairStats.Location = new System.Drawing.Point(3, 516);
+            this.lblPairStats.Name = "lblPairStats";
+            this.lblPairStats.Size = new System.Drawing.Size(35, 13);
+            this.lblPairStats.TabIndex = 9;
+            this.lblPairStats.Text = "label4";
             // 
             // MasterDetail3
             // 
@@ -389,5 +400,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.Label lblPairStats;
     }
 }
