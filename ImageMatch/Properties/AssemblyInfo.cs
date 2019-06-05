@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("howto_image_hash")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("ImageMatchZip")]
+[assembly: AssemblyDescription("Match images across archive files using DCT hash")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("howto_image_hash")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyProduct("ImageMatchZip")]
+[assembly: AssemblyCopyright("Copyright ©  2019 by Kevin Routley. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
