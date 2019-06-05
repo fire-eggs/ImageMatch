@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -185,28 +186,28 @@ namespace howto_image_hash
             DoDiff(sel, true);
         }
 
-        private void BtnDelLeft_Click(object sender, EventArgs e)
+        private void CommonDelete(bool deleteLeft)
         {
             var sel = listZipPairs.SelectedItem as ScoreEntry;
             if (sel == null)
                 return;
+            var todelete = deleteLeft ? sel.zipfile1 : sel.zipfile2;
             try
             {
-                File.Delete(sel.zipfile1);
+                FileSystem.DeleteFile(todelete, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             }
             catch { }
+
+        }
+
+        private void BtnDelLeft_Click(object sender, EventArgs e)
+        {
+            CommonDelete(deleteLeft: true);
         }
 
         private void BtnDelRight_Click(object sender, EventArgs e)
         {
-            var sel = listZipPairs.SelectedItem as ScoreEntry;
-            if (sel == null)
-                return;
-            try
-            {
-                File.Delete(sel.zipfile2);
-            }
-            catch { }
+            CommonDelete(deleteLeft: false);
         }
 
         private string fetchZipPairStats(ScoreEntry sel)
@@ -258,14 +259,18 @@ namespace howto_image_hash
 
         private void SaveSettings()
         {
-            var bounds = DesktopBounds;
-            _mysettings.WinTop = Location.Y;
-            _mysettings.WinLeft = Location.X;
-            _mysettings.WinHigh = bounds.Height;
-            _mysettings.WinWide = bounds.Width;
-            _mysettings.Fake = false;
-            _mysettings.PathHistory = _mru.GetFiles().ToList();
-            _mysettings.Save();
+            try
+            {
+                var bounds = DesktopBounds;
+                _mysettings.WinTop = Location.Y;
+                _mysettings.WinLeft = Location.X;
+                _mysettings.WinHigh = bounds.Height;
+                _mysettings.WinWide = bounds.Width;
+                _mysettings.Fake = false;
+                _mysettings.PathHistory = _mru.GetFiles().ToList();
+                _mysettings.Save();
+            }
+            catch { } // sometimes failing to get access to settings file
         }
         #endregion
 
