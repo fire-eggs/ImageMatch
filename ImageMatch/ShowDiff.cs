@@ -71,7 +71,9 @@ namespace howto_image_hash
                 File.Delete(img1);
                 File.Delete(img2);
             }
-            catch { }
+            catch (Exception ex)
+            {
+            }
         }
 
         private void Button1_Click(object sender, EventArgs e)
@@ -97,7 +99,7 @@ namespace howto_image_hash
                         Image.FromStream(new MemoryStream(File.ReadAllBytes(img2))); // no image lock
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }

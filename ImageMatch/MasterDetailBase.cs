@@ -692,6 +692,8 @@ namespace howto_image_hash
 
         internal void Cleanup()
         {
+            _loader.Cleanup(); // may be duplicated work
+
             // delete any temp files
             foreach (var afile in _toCleanup)
             {
@@ -699,7 +701,7 @@ namespace howto_image_hash
                 {
                     File.Delete(afile);
                 }
-                catch
+                catch (Exception ex)
                 {
                     // TODO file still locked?
                 }

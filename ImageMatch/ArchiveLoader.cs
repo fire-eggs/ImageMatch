@@ -98,7 +98,6 @@ namespace howto_image_hash
         {
             try
             {
-                string tmpPath = Path.GetTempFileName();
                 using (var extractor = new SevenZipExtractor(archive))
                 {
                     if (!isImageExt(Path.GetExtension(fileName)))
@@ -106,12 +105,14 @@ namespace howto_image_hash
                         return string.Empty;
                     }
 
+                    string tmpPath = Path.GetTempFileName();
                     using (FileStream fs = new FileStream(tmpPath, FileMode.Create))
                     {
                         extractor.ExtractFile(fileName, fs);
                     }
+                    _toCleanUp.Add(tmpPath); // can't delete, consumer may still be using it
+                    return tmpPath;
                 }
-                return tmpPath;
             }
             catch (Exception ex)
             {
